@@ -1,5 +1,6 @@
 # advance
 
+https://climbtheladder.com/gitops-interview-questions/
 
 
-# scenatio based
+# scenario based
