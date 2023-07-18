@@ -294,6 +294,8 @@ In such a scenario, I would take the following steps to address the issue and en
 6. Revisit the project plan: If necessary, I would reassess the project plan to accommodate the changes and ensure that the new deadlines are realistic. This would involve considering the impact on other team members' workloads and adjusting dependencies accordingly.
 
 By following these steps, I would strive to mitigate the impact of the team member's absence, maintain project momentum, and deliver the desired outcomes within the given deadline.
+[s1.webm](https://github.com/qriz1452/interview/assets/112246222/c851d748-e9bc-4768-9ef1-3558501a2740)
+
 
 ----------------------
 
@@ -316,6 +318,7 @@ Resolving conflicts and fostering collaboration within a cross-functional team r
 6. Provide ongoing support and feedback: Lastly, I would continuously provide support and feedback to the team. By recognizing and celebrating successful collaborations, addressing conflicts promptly, and offering guidance and mentorship, I would reinforce the importance of collaboration and create a positive work environment.
 
 By implementing these strategies, I would aim to transform conflicts into opportunities for growth and collaboration, enabling the team to work together more effectively and achieve their collective objectives.
+[s2.webm](https://github.com/qriz1452/interview/assets/112246222/6d13c19c-b99b-4985-b232-a458ccbf299b)
 
 
 
@@ -342,6 +345,7 @@ To address communication gaps and improve cross-team collaboration in this scena
 
 By following these steps, I would strive to bridge communication gaps, foster collaboration, and improve cross-team coordination, thereby enabling smoother progress and timely completion of the complex project.
 
+[s3.webm](https://github.com/qriz1452/interview/assets/112246222/9a4399bd-b337-471f-9496-04d40d86902d)
 
 
 ----------------------
@@ -369,6 +373,7 @@ In such a scenario, here's how I would handle the situation using Confluence:
 By following these steps, I would aim to quickly recover the deleted page and ensure that the critical project information is intact, minimizing any adverse effects on the ongoing project.
 
 
+[s4.webm](https://github.com/qriz1452/interview/assets/112246222/b632cc76-424b-4f3e-838c-4145b7999b0a)
 
 
 ----------------------
@@ -465,6 +470,8 @@ Managing stakeholder dynamics in a complex project environment requires a compre
 9. Post-project evaluation and feedback: Once the project is completed, I would conduct a comprehensive evaluation that includes soliciting feedback from stakeholders. This step allows for reflection, learning, and identification of areas for improvement in future projects. By actively seeking input from stakeholders, I demonstrate a commitment to continuous improvement and building long-term relationships.
 
 In summary, effective stakeholder management requires a combination of thorough analysis, proactive communication, active involvement, conflict resolution, and continuous relationship building. By employing this comprehensive strategy, I would ensure successful project delivery while addressing conflicting priorities and maintaining strong stakeholder engagement throughout the project lifecycle.
+
+[s3.626dca88-3427-45d8-8e94-9cc197bda668.webm](https://github.com/qriz1452/interview/assets/112246222/07d33a14-e11b-468c-a0e5-00943c5eca67)
 
 
 ---------------
