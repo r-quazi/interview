@@ -50,4 +50,34 @@ Q24 :  If you forget Jenkins password, how would you login back?
 
 Q26 : Any best practices for docker ?
 Q27 : Difference between docker kill and docker stop ?
-Q28 : 
+Q28 : command to list containers which state is exited ?
+Q29 : command to cleamup docker host ( deleting stopped containers, dangling images and unused networks ) ?
+Q30 : What version of docker you have used ? , specific reason to use that perticular version ?
+Q31 : can we have multiple CMD in Dockerfile ?
+Q32 : Have you worked on docker swarm and docker compose ?
+
+-----------------------
+
+Q33 : Can we have multiple conatiners in a pod?
+Q34 : Can we have similar conatiners in a pod? Lets say i have 4 conatiners, one of them has failed how would you check which container has failed?
+Q35 : What is liveness and readiness probe? Why we need them?
+Q36 : Have you worked on kubernetes monitoring? Which tools you have used?
+Q37 : Can we deploy a pod on particular node?
+
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
