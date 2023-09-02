@@ -7,11 +7,14 @@
 - Mock interview Answers - https://youtu.be/RtYw7f0KyV0?feature=shared
 
 
+0. Can you just walk me throuh what are the tools you have worked on and the daily activities ?
+
+
 GIT
 ---------------------------------------------------------------------------------------------------------------------------------
 1. What is git-cherry-pick? why we use it?
 2. Let’s say you’re working on new feature in some branch, now your manager says stop working on that and change few other things on old code. Here after changing the old code, I need to work on new code, so I need to place my new changes some place How would handle this scenario? 
-3. What is a conflict in git?
+3. What is a conflict in git? have you worked on it ?
 4. command to list all branches in a repo?
 
 
@@ -54,13 +57,13 @@ AWS
 19. I want to give programmatic access means They can access AWS services via api’s  But should not be access AWS web console
 20. As AMI is region specific I want create Machine with AMI which there in other Region is that possible?
 21. Why we need security groups? By default what is outbound rules?
-22. What is VPC? Give a brief about VPC?
+22. What is VPC? Give a brief about VPC? 
 23. Have you worked on Load balancers? If Yes, tell which load balancers you have used?
 24. Lets say I have created auto scaling rule when ever Load goes more than 60% create a new instance Currently I have 3 machines, 1st machine load  is 62% , 2nd machine 30% and 3rd also 30%.  Now will auto scale rule creates new machine ?
 
 Ansible
 -----------------------------------------------------------------------------------------------------------------------
-25. What is the best method to make your ansible YAML files reusable?
+25. What is the best method to make your ansible YAML files reusable? have you created roles ?
 26. What is ansible vault and ansible tower?
 27. Lets say I have playbook need to be run with Root user how would you do this?
 28. Difference between copy and fetch module?
