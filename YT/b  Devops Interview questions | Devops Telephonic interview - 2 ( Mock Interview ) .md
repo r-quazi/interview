@@ -1,6 +1,7 @@
 ## Devops Interview questions | Devops Telephonic interview - 2 ( Mock Interview ) 
-https://www.youtube.com/watch?v=lXGAJElFxaA&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq&index=2
-
+* mock : https://www.youtube.com/watch?v=lXGAJElFxaA&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq&index=2
+* Answers : https://www.youtube.com/watch?v=7WJ31VFk1_Y&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq&index=10
+  
 ------------------------------------
 
 Q1 : Can you tell me what are tools you have used and your daily activities ?
