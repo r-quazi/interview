@@ -1,7 +1,7 @@
  ## Devops Interview questions | Devops Telephonic interview - 1 ( Mock Interview ) 
  
-Mock : https://www.youtube.com/watch?v=i7YJesoeWFI&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq
-Ans : https://www.youtube.com/watch?v=5w8qVukxXXY&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq&index=9
+* Mock : https://www.youtube.com/watch?v=i7YJesoeWFI&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq
+* Ans : https://www.youtube.com/watch?v=5w8qVukxXXY&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq&index=9
  
 ---------
 
