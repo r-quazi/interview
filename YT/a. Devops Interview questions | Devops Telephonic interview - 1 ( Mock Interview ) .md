@@ -109,6 +109,7 @@ To clone a specific branch we can use -b flag, or we can also use ` git clone --
 if we use only --single-branch by default it will clone master or main only and for specific branch we need to use --branch, we can use --depth to save the bandwith
 
 there are other ways as well like cloning the repo with all branches and checkout to specific branch however that doesnt answer the question to clone specific branch only.
+
 -----
 -----
 
@@ -116,6 +117,23 @@ there are other ways as well like cloning the repo with all branches and checkou
 
 Q7 : When i issue mvn install what all things happen in background ?
 - ans :
+
+```
+clean  :   Delete target directory.
+validate   :    Validate if the project is correct.
+compile   :   Compile source code, classes stored in target/classes.
+test   :   Run tests.
+package   :   Take the compiled code and package it in its distributable format, e.g. JAR, WAR.
+verify   :    Run any checks to verify the MVN package is valid and meets quality criteria.
+install   :    Install the package into the local repository.
+deploy   :   Copies the final MVN package to the remote repository.
+```
+
+
+
+
+-----
+-------
 
 Q8 : Do you know what is .m2 folder ?
 - ans :
