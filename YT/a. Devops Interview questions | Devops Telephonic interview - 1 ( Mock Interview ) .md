@@ -85,7 +85,15 @@ Q5 : Difference between git pull and git fetch ?
 - ans :
 
 
+Git fetch vs git pull
 
+Git fetch gives the information of new changes from the remote repo without merging in thw current branch and the data is tored in .git we can revew the changes and git merge can be done and while using git fetc there are less chances of merge conflict because we are aware what previous changes has been done and depending on that git merge can be done
+
+however
+
+git pull is addition of git fetch and git merge git pull brings all the changes made to remote repo and merges in our current branch and our repository will be updated, In this case merge conflict may arise 1 there are changes at the same place.
+
+we can say git fetch is the safe and non destructive of these 2 commands
 
 
 ---------
