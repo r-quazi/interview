@@ -32,10 +32,32 @@ In azure the migration is very simple as git is owned by Microsoft only we just 
 when setting up webhooks or migrating repositories, it's crucial to consider security measures. For GitHub webhooks, using a secret token and verifying the HMAC signature of incoming payloads helps ensure data authenticity. also the pat token should be stored in key vaults of the respective cloud services AWS Azure Oracle considering the sensitivity. and while configuring the roles of giving permissions we should follow the rbac and least privileged.
 
 __________
-
+---------
 
 Q3 : Why we need git and what it makes unique from other tools like SVN ?
+
 - ans :
+
+Git vs SVN
+
+Git and svn are both version controls systems howvever Git is more vcs and SVN is RCS,
+
+Git operates locally, developers clones the main repo and can make changes or code without connecting to the main repo. they only need to connect when they are commiting the changes to the main repo or pushing the changes. this helps to limit the network traffic which may reduce teh cost if we are running the servers on the cloud i.e ingress charges. However SVN has limited offline capabilities
+
+By using git we can avoid the single point of failure, as the copy will be available in dev laptop and in case the repo is deleted from github we can restore ( if we are restoring from the laptop we need to have all the branches) the SVN can be a single point of failure unless we have configured backup 
+
+⚫in git dev can work independtly rather than on centralized manner like svn, and if any merge conflict arises it can be handeled easily.
+
+⚫ svn can be better for RBAC in git we cant enable acces to some code files like svn does however it can be possible with 3rd party plugin but wen need to make sure there is no CVES attached.
+
+Selecting Git and svn depends on how much granular security we needs and no. of parallel contributors.
+
+codecommit doesnot supports SVN, we need to migrate svn to git then we can push to codecommit, Azures repos supports SVN and Git both i.e DVCS and CVCS, OCI repositories
+
+
+
+----------
+-----------
 
 Q4 : so lets say you have a scenario, i have a maven repo cloned on to my local, did some changes and i have build the code like mvn install now target folder will be generated, so now when i do git operations like git add , git commit or any other git operation target folder should not be considered, how would you achieve the same ?
 - ans :
