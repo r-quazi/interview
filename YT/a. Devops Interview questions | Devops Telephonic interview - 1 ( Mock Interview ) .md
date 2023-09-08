@@ -100,9 +100,17 @@ we can say git fetch is the safe and non destructive of these 2 commands
 ---------
 
 Q6 : How to clone specific branch in  git ?
+
 - ans :
 
 
+To clone a specific branch we can use -b flag, or we can also use ` git clone --single-branch --branch < branch name> <remote repo url> `
+
+if we use only --single-branch by default it will clone master or main only and for specific branch we need to use --branch, we can use --depth to save the bandwith
+
+there are other ways as well like cloning the repo with all branches and checkout to specific branch however that doesnt answer the question to clone specific branch only.
+-----
+-----
 
 -------------------------
 
