@@ -60,11 +60,36 @@ codecommit doesnot supports SVN, we need to migrate svn to git then we can push 
 -----------
 
 Q4 : so lets say you have a scenario, i have a maven repo cloned on to my local, did some changes and i have build the code like mvn install now target folder will be generated, so now when i do git operations like git add , git commit or any other git operation target folder should not be considered, how would you achieve the same ?
+
 - ans :
+
+We can use the .gitignore file if we need some files which are not to be pushed to main repository.
+
+
+
+we can add file or folder names in gitignore file, if we are using VS Code this file will be generated automatically and content of gitignnore depends on project we are creating. or
+
+there are various templates are also available on the ietrnet
+
+this file is located in the root firectory of the repo and it is a plain text file ans it supports the regex and pattern match
+
+if our gitignore file is long or we are in some other folder we can use 'git check-ignore -v path/to/ignored/file to chewck if the file is in gitignore or not
+
+
+--------
+--------
 
 
 Q5 : Difference between git pull and git fetch ?
+
 - ans :
+
+
+
+
+
+---------
+---------
 
 Q6 : How to clone specific branch in  git ?
 - ans :
