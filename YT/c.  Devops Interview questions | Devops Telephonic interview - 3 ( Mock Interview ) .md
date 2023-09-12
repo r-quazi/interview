@@ -60,10 +60,84 @@ the crrypick is useful however   it can lead to commit duplication and complex m
 ----
 ----
 
-2. Let’s say you’re working on new feature in some branch, now your manager says stop working on that and change few other things on old code. Here after changing the old code, I need to work on new code, so I need to place my new changes some place How would handle this scenario? 
+2. Let’s say you’re working on new feature in some branch, now your manager says stop working on that and change few other things on old code. Here after changing the old code, I need to work on new code, so I need to place my new changes some place How would handle this scenario?
+
+
+Ans : 
+In this case we can use the git stash , Stashing is a handy way to temporarily save your changes while you work on something else, and it helps you avoid cluttering your commit history with incomplete work.
+
+
+We need to first save the changes use ` git stash save "Working on new feature"   `  
+then Checkout the Branch for Old Code: `git checkout old-code-branch`
+Make and Commit Changes: `git commit -m "Made changes to old code"`
+Switch Back to the New Feature Branch:   `git checkout new-feature-branch`
+Apply Stashed Changes: `git stash apply`
+Resolve Any Conflicts:
+
+
+Stash command is for local hide your changes.
+If you want work remotely you must commit and push. for example i am doing work in hybrid mode in office i made some changes to file and stashed and pushed to main repo then on home on my laptop i pulled the repo , then the repo will not have stashed changes. in such cases we need either a branch for stash or better go with some commits.
+
+ you can look at stash as a temporary "private" commit. However the strategy depends on developers that s just a matter of taste.
+ 
+ the git stash save command is deprecated, which means that any new development should only use push.
+ 
+
+
+
+
+
+
+-------
+------
 3. What is a conflict in git? have you worked on it ?
+Ans :
+The conflicts may arise when two  people have changed the same lines in a file, or if one developer deleted a file while another developer was modifying it.In these cases, Git cannot automatically determine what is correct. Conflicts only affect the developer conducting the merge, the rest of the team is unaware of the conflict. Git will mark the file as being conflicted and halt the merging process. It is then the developers' responsibility to resolve the conflict.
+
+In SVN resolving conflicts is hardand time consuming in git it can be resolved quickly via git conflict tools whenver we merge a branch or a file cmmitted.
+
+
+We can use git status to find the details about conflicts  it will show which file is mofidfied and related commits , we cn provide flags or options to get more detailes.
+
+once the file is identified we can edit the file make some changes and commit then we can merge it.
+
+git diff helps find differences between states of a repository/files. This is useful in predicting and preventing merge conflicts.
+
+else we can resolve the configs from the GitHUb as well.  git displayes <<< === >>> less than equal and greater than symbols where conflicts it detects in file.
+
+
+We can avoid the conflicts using git fetch , git pull ,  communication within the team , seperate branches for different environments.
+
+
+
+--------
+--------
+
+
 4. command to list all branches in a repo?
 
+There are three commands to list all branches in a Git repository:
+```
+git branch: This command lists all local branches.
+git branch -r: This command lists all remote branches.
+git branch -a: This command lists all local and remote branches.
+git show-branch: Provides a detailed view of branch relationships and commit history.
+git branch --list: Lists all local branches.
+git for-each-ref --format="%(refname:short) %(objectname) %(subject)" refs/heads/: Lists local branches with commit hashes and commit subjects.
+
+
+
+```
+    
+
+
+
+
+
+----
+-----
+-----
+----
 
 Maven
 --------------------------------------------------------------------------------------------------------------------------
