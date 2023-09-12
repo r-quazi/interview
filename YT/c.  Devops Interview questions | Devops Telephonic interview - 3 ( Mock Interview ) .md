@@ -13,6 +13,53 @@
 GIT
 ---------------------------------------------------------------------------------------------------------------------------------
 1. What is git-cherry-pick? why we use it?
+Ans :
+
+
+Git cherry pick is used to apply specific commits from one branch to another , we can pick individual commits and apply them to your current workingbranch  without merging the entire branch  . we can selected specific changes from branch and cherry pick them into another branch.
+
+git cherry-pick can be useful for undoing changes. For example, say a commit is accidently made to the wrong branch. You can switch to the correct branch and cherry-pick the commit to where it should belong.
+
+other use cases : 
+
+Sometimes a feature branch may go stale and not get merged into main. Sometimes a pull request might get closed without merging. Git never loses those commits and through commands like git log and git reflog they can be found and cherry picked back to life.
+
+Backporting fixes: If you have a bug fix in one branch and you want to apply it to an older or different branch without merging the entire branch, you can use git cherry-pick to selectively apply the fix.
+
+Splitting commits: You might have a commit that contains multiple changes, and you want to apply only a subset of those changes to another branch. Cherry-picking allows you to split a commit into smaller, more focused commits* * * *   Reordering commits: If you want to change the order of commits in your branch's history or move commits between branches, you can use git cherry-pick to achieve this.
+
+
+When a bug is discovered it is important to deliver a fix to end users as quickly as possible. For an example scenario,say a developer has started work on a new feature. During that new feature development they identify a pre-existing bug. The developer creates an explicit commit patching this bug. This new patch commit can be cherry-picked directly to the main branch to fix the bug before it effects more users.
+
+
+With the cherry-pick command, Git lets you incorporate selected individual commits from any branch into your current Git HEAD branch. When performing a git merge or git rebase , all the commits from a branch are combined.
+It's also possible to cherry-pick multiple commits but merge is the preferred way over cherry-picking.
+
+
+First, make sure you are on the branch where you want to apply the selected commit(s).
+
+Run the git cherry-pick command followed by the commit hash of the commit you want to apply. For example:
+
+`git cherry-pick <commit-hash>`
+
+You can specify multiple commit hashes in a single command to apply multiple commits in sequence
+
+Git will attempt to apply the changes made by the selected commit(s) to your current branch. If there are any conflicts (i.e., changes in the selected commit(s) conflict with changes in your current branch), Git will pause the process and prompt you to resolve the conflicts manually
+
+
+After resolving any conflicts, you can continue the cherry-pick process by running git cherry-pick --continue. If you decide to abort the cherry-pick, you can use git cherry-pick --abor 
+
+
+the crrypick is useful however   it can lead to commit duplication and complex merge histories if not used judiciously.
+
+    
+
+
+
+
+----
+----
+
 2. Let’s say you’re working on new feature in some branch, now your manager says stop working on that and change few other things on old code. Here after changing the old code, I need to work on new code, so I need to place my new changes some place How would handle this scenario? 
 3. What is a conflict in git? have you worked on it ?
 4. command to list all branches in a repo?
