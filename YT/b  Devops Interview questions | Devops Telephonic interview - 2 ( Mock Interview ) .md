@@ -175,10 +175,36 @@ so we are nesting the repositories here, One git repo i.e submodule is nested  i
 it is easy way to manage an version control external dependencies or libraries withih the project.
 
 
+Submodules are useful when we have dependency on another project for example   You're working on a large software project that consists of multiple components, each developed and maintained by different teams. The project relies on a common set of shared libraries and utilities that are used across various components. To ensure consistency and version control, you decide to use Git submodules.
 
 
 
+Using submodules we can  maintain seperate repositories for the services / libraries or the dependencies. instead o manually copiying and  managing these dependencies we can use submodules to  include  them as a part of project.
 
+
+Other benefits of submodules include isolation -- we have a seperate code base and bad commit wont affect the whole project we have , Version control -- each module can be version contolled and we can keep track on changes as well as audits since organizations uses LDAP or IAM , active directory , maintanability -- when external dependencies receive an update or bug fixes we can easily update the submodule to latest version. 
+
+
+
+There are few submodule commands in git :
+
+
+
+1. **git submodule init:** Initializes submodules.
+
+2. **git submodule update:** Updates submodules.
+
+3. **git submodule add <repository_url> <path>:** Adds a new submodule.
+
+4. **git submodule status:** Shows the status of submodules (e.g., whether they are up to date or have uncommitted changes).
+
+5. **git submodule foreach \<command>:** Executes a Git command in each submodule directory.
+
+6. **git submodule sync:** Synchronizes the submodule URL configuration in the `.gitmodules` file.
+
+7. **git submodule deinit \<path>:** Deinitializes a submodule.
+
+8. **git submodule absorbgitdirs:** Moves the contents of a submodule into its parent repository.
 
 
 
@@ -199,11 +225,29 @@ Q7 : Lets say you have changed 5 files a,b,c,d and e in a repo and you did git a
 
 
 
+If we made  changes to multiple files and these files are tracked then   we used `git add . ` to move all the files to staging area but if we want to remove some files from staging area we can use git reset feature.
+
+So the command looks like : `git reset HEAD d`
+      git reset: This command allows you to reset changes in various ways. When used with HEAD, it's typically used to unstage changes.
+    HEAD: Refers to the latest commit in your branch.
+    d: Represents the name of the file you want to unstage
+
+    
+
+After running this command, file d will be removed from the staging area, and it will remain as an unstaged change in your working directory. You can then commit the remaining changes (files a, b, c, and e) separately without including file d.
 
 
+However it is not a best practice to commit multiple files with same commit id . we should small changes and each commit should be relted to a single file only so we can tracj changes easily.
+
+another option we have is to use restore whch was inroduced in git 2.23 
+To unstage file d, you can run: ` git restore --staged d`   the file will be moved from staged ( index , cache ) to unstage and we can commit the remaining files.
 
 
+whenever we we move files to staging area or we are indexing the file it will be stored in cache or in index file located in .git folder,  we cant directly make changes in index file as it is not human readable it is binary file. 
 
+
+To get a sense of the binary content within the .git/index file, you can use Git's plumbing command git ls-files with the --debug option, which provides a hexadecimal dump of some of the index file's content. Here's how you can use it:
+To interact with the index or staging area, it's recommended to use Git's high-level commands, such as git add, git reset, and git status, which provide a more user-friendly interface for managing and querying the staging area's state.
 
 
 
