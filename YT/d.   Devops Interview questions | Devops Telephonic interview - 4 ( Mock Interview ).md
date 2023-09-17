@@ -158,7 +158,9 @@ Git hooks can be a powerful tool for automating and improving your development w
 
 Hooks doesnt only mean sending some json payload like setting github webooks for jenkins the commands that we run git commit, git rebase etc also hooks which runs scripts in the  background.
 
+Git hooks are scripts that are run at specific points in the Git workflow, such as before a commit is made, after a push is received, or after a branch is merged. They can be used to enforce policies, automate tasks, or simply notify you of events.
 
+Webhooks are a way for two web applications to communicate with each other. When a webhook is triggered, a POST request is sent to a specified URL with a payload containing information about the event. This allows you to automate tasks in one application based on events in another application.
 
 
 
