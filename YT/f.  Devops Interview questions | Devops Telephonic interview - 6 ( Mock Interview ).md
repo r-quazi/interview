@@ -124,15 +124,33 @@ Here's how you can squash commits using an interactive rebase:
 
 Squashing commits can make your commit history more concise and easier to understand, particularly when you have made several incremental commits during development. It's a useful practice before merging feature branches into the main branch or for creating cleaner, more organized commit histories for your projects.
 
------------------------------------
-| Git Squash	     |    Git Rebase | 
-------------------------------------
-| You can combine multiple commits into a single commit.	     |    	Applies commits on top of the different base commits. | 
-| After using git squash your commit history will be more clean and organized.		     |    You can form a new branch by using previous commits.  |
-| Must be done on private branches. 		     |    Rebasing can be done on a feature branch or shared branch. |
-| By using squishing you can maintain clean and logical commit history.	     |    	By using rebase command you can keep your branch up to date. |
+| Git Squash          | Git Rebase              |
+|---------------------|-------------------------|
+| You can combine multiple commits into a single commit.  | Applies commits on top of different base commits. |
+| After using git squash, your commit history will be more clean and organized. | You can form a new branch by using previous commits. |
+| Must be done on private branches. | Rebasing can be done on a feature branch or shared branch. |
+| By using squashing, you can maintain a clean and logical commit history. | By using the rebase command, you can keep your branch up to date. |
 
-|--------------------- |---------------------------|
+
+
+to squash multiple commits tegether :
+
+
+
+
+You can do this fairly easily without git rebase or git merge --squash. In this example, we'll squash the last 3 commits.
+
+If you want to write the new commit message from scratch, this suffices:
+
+git reset --soft HEAD~3 &&
+git commit
+
+If you want to start editing the new commit message with a concatenation of the existing commit messages (i.e. similar to what a pick/squash/squash/…/squash git rebase -i instruction list would start you with), then you need to extract those messages and pass them to git commit:
+
+git reset --soft HEAD~3 && 
+git commit --edit -m"$(git log --format=%B --reverse HEAD..HEAD@{1})"
+
+Both of those methods squash the last three commits into a single new commit in the same way. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched by the soft reset, leaving the index in the desired state for your new commit (i.e. it already has all the changes from the commits that you are about to “throw away”).
 
 
 
@@ -142,7 +160,56 @@ Squashing commits can make your commit history more concise and easier to unders
 6. What branching strategy you used and which is good ?
 
 
+The choice of a branching strategy in Git depends on your team's development workflow and the specific needs of your project. There is no one-size-fits-all branching strategy, and what works best can vary from one project to another. Here are a few common branching strategies and when they might be suitable:
 
+1. **Feature Branch Workflow:**
+   - In this strategy, each new feature or bug fix is developed in a dedicated feature branch.
+   - Feature branches are created from the main development branch (often `master` or `main`) and are merged back into that branch when the feature is complete.
+   - This strategy keeps the main branch stable and allows for parallel development of multiple features.
+
+   **When to use:** This is a flexible and widely used strategy suitable for most projects. It keeps the main branch clean and provides isolation for feature development.
+
+2. **Gitflow Workflow:**
+   - Gitflow defines a strict branching model with dedicated branches for features, releases, and hotfixes.
+   - It introduces branches like `feature`, `develop`, `release`, and `hotfix` in addition to `master` for long-term stability.
+   - This strategy is more structured and provides clear guidelines for different types of development and releases.
+
+   **When to use:** Gitflow can be useful for larger projects with complex release cycles and the need for a well-defined process.
+
+3. **GitHub Flow:**
+   - GitHub Flow is a simpler strategy that emphasizes continuous delivery.
+   - Development happens in feature branches, and once a feature is complete and tested, it's merged into the main branch (usually `main`) and deployed.
+   - It encourages smaller, more frequent merges, reducing the time between development and deployment.
+
+   **When to use:** GitHub Flow is suitable for projects where you want to maintain a rapid development and deployment cycle with a strong focus on simplicity.
+
+4. **Trunk-Based Development:**
+   - In this strategy, all development happens in a single branch, often `master` or `main`.
+   - Developers commit frequently, and the goal is to keep the main branch stable at all times.
+   - Continuous integration and automated testing are crucial for ensuring the stability of the main branch.
+
+   **When to use:** Trunk-Based Development is effective for small teams or projects with a high level of automation and emphasis on quick releases.
+
+5. **GitOps Workflow:**
+   - GitOps is a strategy that combines Git with infrastructure as code (IaC) and automation to manage infrastructure and application deployments.
+   - Changes to the infrastructure and application configurations are stored in Git repositories and automatically applied to the live environment.
+
+   **When to use:** GitOps is suitable for projects that require a declarative and automated approach to managing infrastructure and deployments, such as cloud-native applications.
+
+The choice of a branching strategy should align with your team's workflow, project size, and release cycle. It's important to document and communicate the chosen strategy to ensure that all team members understand how to work with branches and how code is integrated and released. Additionally, it's often beneficial to revisit and adapt your branching strategy as your project evolves and your team's needs change.
+
+
+
+I used the GitHub Flow branching strategy for this conversation. This strategy is simple and lightweight, and it is well-suited for small to medium-sized teams. It is also a good choice for teams that work on short-lived projects or that need to release new features quickly.
+
+The GitHub Flow strategy uses two main branches:
+
+    main: This branch contains the code that is currently in production.
+    feature: Developers create feature branches to work on new features or bug fixes. Once a feature is complete and tested, it is merged into the main branch.
+
+The GitHub Flow strategy also recommends using pull requests to merge changes from feature branches into the main branch. This allows other developers to review the changes before they are merged, which helps to ensure code quality.
+
+For Devops : https://www.bmc.com/blogs/devops-branching-strategies/
 
 
 
@@ -152,8 +219,8 @@ Squashing commits can make your commit history more concise and easier to unders
 
 ---------
 ---------
+----------
 
-========
 
 7. Have you worked on build tool maven ?
 8. Please explain 3 maven build phase in details ?
