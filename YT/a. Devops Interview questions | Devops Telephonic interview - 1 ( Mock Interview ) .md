@@ -118,11 +118,11 @@ there are other ways as well like cloning the repo with all branches and checkou
 Q7 : When i issue mvn install what all things happen in background ?
 - ans :
 
-When you issue the `mvn install` command in a Maven project, several things happen in the background to build and install the project. Maven is a build automation tool used primarily for Java projects, and `mvn install` is a common command used to build and install a project into your local Maven repository. Here's a high-level overview of what happens when you run `mvn install`:
-On a mvn install, it frames a dependency tree based on the project configuration pom. xml on all the sub projects under the super pom. xml (the root POM) and downloads/compiles all the needed components in a directory called . m2 under the user's folder.
+Maven is a build automation tool used primarily for the java projects . Whenever we issue mvn install command several things happen in the background , first it frdames a dependency tree on the pom.xml file and on  all the subprojects under super pom or the root pom however  it depdends on where we are running mvn install command generally we run where the super pom is located. then it sownloads , compiles all the needed components id directory .m2
 
 
-1. **Parsing the Project**: Maven starts by parsing the `pom.xml` file in your project's root directory. This XML file contains project metadata, dependencies, plugins, and build instructions. Maven checks to make sure that the POM file is well-formed and contains all of the required information.
+
+1. **Parsing the Project**:  POM  XML file contains project metadata, dependencies, plugins, and build instructions. Maven checks to make sure that the POM file is well-formed and contains all of the required information.
 
 2. **Dependency Resolution**: Maven checks the local repository (usually located at `~/.m2/repository`) to see if any of the project's dependencies are already present. If not, it proceeds to download them from remote repositories specified in the `pom.xml` (such as Maven Central or a corporate repository). Maven downloads all of the project's dependencies from the remote Maven repositories to the local Maven repository.
 
@@ -130,7 +130,7 @@ On a mvn install, it frames a dependency tree based on the project configuration
 
 4. **Running Tests**: If you have defined unit tests in your project (usually located in the `src/test/java` directory), Maven will execute these tests. If any tests fail, the build process will typically stop, and the project won't be installed. Maven runs the project's unit tests to ensure that the code is working as expected.
 
-5. **Packaging**: After a successful compilation and testing phase, Maven packages your project into a specific format, depending on the packaging type defined in the `pom.xml`. Common packaging types include JAR (Java Archive), WAR (Web Application Archive), and others. Maven packages the project's compiled bytecode and other resources into a JAR (Java Archive) file.
+5. **Packaging**: Maven packages your project into a specific format, depending on the packaging type defined in the `pom.xml`. Common packaging types include JAR (Java Archive), WAR (Web Application Archive), and others. Maven packages the project's compiled bytecode and other resources into a JAR (Java Archive) file.
 
 6. **Installing in the Local Repository**: The built artifact (e.g., JAR or WAR file) is installed in your local Maven repository. By default, this repository is located in `~/.m2/repository`. This allows other Maven projects on your machine to depend on and use the artifact. Maven installs the project's JAR file to the local Maven repository.
 
@@ -153,25 +153,13 @@ In addition to the above steps, Maven also performs a number of other tasks in t
 The specific tasks that Maven performs will depend on the configuration of the project POM file.
 Example
 
-The following example shows how to use the mvn install command to install a single-module Maven project:
 
-mvn install
-
-This command will compile the project's source code, run the unit tests, package the project, and install the project's JAR file to the local Maven repository.
 
 The following example shows how to use the mvn install command to install a multi-module Maven project:
 
 mvn clean install -am
 
 This command will clean the build artifacts for all of the project's modules, compile the source code for all of the modules, run the unit tests for all of the modules, package all of the modules, and install all of the modules' JAR files to the local Maven repository.
-Why is mvn install useful?
-
-The mvn install command is useful for a number of reasons, including:
-
-    It automates the process of building and installing Maven projects.
-    It ensures that all of the project's dependencies are downloaded and installed correctly.
-    It provides a consistent way to build and install Maven projects on different platforms.
-    It allows Maven projects to be easily shared with other developers.
 
  
 
@@ -195,21 +183,20 @@ deploy   :   Copies the final MVN package to the remote repository.
 Q8 : Do you know what is .m2 folder ?
 - ans :
 
-Yes, I can provide information about the `.m2` folder. The `.m2` folder is a directory that is typically found in a user's home directory (e.g., `C:\Users\<username>` on Windows or `/Users/<username>` on macOS and Linux). This folder is created and used by Apache Maven, a popular build automation and project management tool primarily used for Java projects.
+ The `.m2` folder is a directory that is `C:\Users\<username>` on Windows or `/Users/<username>` on macOS and Linux). This folder is created and used by Apache Maven, a popular build automation and project management tool  used for Java projects.
 
 Here's what the `.m2` folder contains:
 
-1. **Repository**: The most important subdirectory within `.m2` is the `repository` directory. This is where Maven stores downloaded dependencies (JAR files, POM files, etc.) from remote repositories like Maven Central. These dependencies are cached locally to avoid repeatedly downloading the same artifacts, which can save time and bandwidth.
+1. **Repository**: The most important subdirectory .  Maven stores downloaded dependencies (JAR files, POM files, etc.) from remote repositories like Maven Central. These dependencies are cached locally to avoid repeatedly downloading the same artifacts, which can save time and bandwidth.
 
-   - `.m2/repository/`: This is the location where all downloaded dependencies are stored in a structured directory hierarchy based on the Maven coordinates of the artifacts (group ID, artifact ID, version, etc.).
+ dependencies are stored in a structured directory hierarchy based on the Maven coordinates of the artifacts (group ID, artifact ID, version, etc.).
 
 2. **Settings**: The `.m2` folder may also contain a `settings.xml` file, which allows you to configure Maven settings. This file can be used to specify custom repositories, proxy settings, and other configuration options.
 
-   - `.m2/settings.xml`: The Maven settings file can be customized to suit your project's needs. You can create this file if it doesn't exist or modify an existing one.
 
-3. **Wrapper (Optional)**: In some projects, you might find a `.m2/wrapper` directory. This is part of the Maven Wrapper mechanism, which allows you to include a version of Maven with your project. It ensures that everyone working on the project uses the same version of Maven, reducing compatibility issues.
+3. **Wrapper (Optional)**:  This is part of the Maven Wrapper mechanism, which allows you to include a version of Maven with your project. It ensures that everyone working on the project uses the same version of Maven, reducing compatibility issues.
 
-   - `.m2/wrapper/`: This directory contains the Maven Wrapper files, such as `maven-wrapper.properties` and the `maven-wrapper.jar` file.
+This directory contains the Maven Wrapper files, such as `maven-wrapper.properties` and the `maven-wrapper.jar` file.
 
 The `.m2` folder is important for managing and caching project dependencies when working with Maven. It helps ensure that your builds are reproducible and efficient by storing downloaded artifacts locally, reducing the need to fetch them from remote repositories repeatedly. It also provides a way to configure Maven's behavior through the `settings.xml` file.
 
@@ -292,28 +279,19 @@ Before running the `mvn deploy` command to deploy your Maven project, there are 
 Once you've configured these settings in your `pom.xml` and Maven settings, you can run `mvn deploy` to deploy your project to the specified remote repository. Make sure you have the necessary permissions and access rights to publish to the remote repository.
 
 
-Before running mvn deploy, you need to make sure that the following settings are configured in your pom.xml or in your Maven settings file (settings.xml):
 
-    Repository information: You need to specify the repository where you want to deploy your artifacts. This can be done in the <distributionManagement> section of your pom.xml file:
-
-<distributionManagement>
-  <repository>
-    <id>my-repository</id>
-    <url>https://my-repository.com/releases</url>
-  </repository>
-</distributionManagement>
 
 If you are deploying snapshot artifacts, you will also need to specify a snapshot repository:
-
+```
 <distributionManagement>
   <snapshotRepository>
     <id>my-snapshot-repository</id>
     <url>https://my-snapshot-repository.com/snapshots</url>
   </snapshotRepository>
 </distributionManagement>
-
-    Credentials: If the repository where you are deploying your artifacts requires authentication, you will need to configure your credentials in your Maven settings file (settings.xml). This can be done in the <servers> section:
-
+```
+Credentials: If the repository where you are deploying your artifacts requires authentication, you will need to configure your credentials in your Maven settings file (settings.xml). This can be done in the <servers> section:
+```
 <servers>
   <server>
     <id>my-repository</id>
@@ -321,7 +299,7 @@ If you are deploying snapshot artifacts, you will also need to specify a snapsho
     <password>my-password</password>
   </server>
 </servers>
-
+```
 If you are deploying to a private repository, you may also need to configure a proxy in your Maven settings file.
 
 Once you have configured your repository information and credentials, you can deploy your artifacts by running the following command:
@@ -330,14 +308,7 @@ mvn deploy
 
 This will deploy your artifacts to the repository that you specified in your pom.xml file.
 
-In addition to the above settings, there are a few other things you may want to do before running mvn deploy:
 
-    Make sure that your artifacts are built and packaged correctly. You can do this by running the mvn package command.
-    Test your artifacts. It is a good idea to test your artifacts before deploying them to a production environment.
-    Create a backup of your artifacts. This is in case something goes wrong with the deployment process.
-
-
-    
 
 
 -----------
@@ -346,7 +317,6 @@ In addition to the above settings, there are a few other things you may want to 
 
 Q10 : have you build any maven projects in local ? if you to maven build first time it takes less time to build and next time it will takes less time to build, why it happens ?
 - ans :
-I haven't personally built Maven projects, but I can explain why the build time tends to decrease after the first build:
 
 1. **Caching Dependencies**: During the first build of a Maven project, the build process resolves and downloads project dependencies (such as libraries and plugins) from remote repositories like Maven Central. These dependencies are typically cached in your local Maven repository (`~/.m2/repository`). When you build the project again, Maven checks the local repository first and uses the cached dependencies if they haven't changed. This significantly reduces the time required for dependency resolution and download.
 
@@ -406,16 +376,6 @@ Here are some tips for speeding up Maven builds:
 Q11 : how to get present working folder ? 
 - ans :
 
-In Bash scripting, you can obtain the present working folder (the current directory) using the `pwd` command, which stands for "print working directory." This command prints the absolute path of the current directory to the standard output.
-
-Here's how you can assign the present working folder to a variable in a Bash script:
-
-```bash
-current_folder=$(pwd)
-echo "Present working folder is: $current_folder"
-```
-
-This script will store the current directory in the `current_folder` variable and then print it.
 
 If you want the name of the current directory (i.e., just the folder's name without the full path), you can use the `basename` command to extract it:
 
@@ -435,7 +395,7 @@ thread : https://stackoverflow.com/questions/1371261/get-current-directory-or-fo
 Q12 : how to copy files from local windows machine to cloud based linux machine , suppose i dont have any admin access ?
 - ans :
 
-If you don't have admin access to the Linux machine but have SSH access, you can use secure file transfer methods like SCP (Secure Copy Protocol) or SFTP (SSH File Transfer Protocol) to copy files from your local Windows machine to the cloud-based Linux machine. Here's how you can do it:
+ you can use secure file transfer methods like SCP (Secure Copy Protocol) or SFTP (SSH File Transfer Protocol) to copy files from your local Windows machine to the cloud-based Linux machine. Here's how you can do it:
 
 **Using SCP (Secure Copy Protocol):**
 
@@ -471,7 +431,7 @@ If you don't have admin access to the Linux machine but have SSH access, you can
 
 4. **Drag and drop the files** from your local machine to the remote machine using the SFTP client's interface. The files will be transferred securely over SSH.
 
-Remember that for both SCP and SFTP, you need to have SSH access to the remote Linux machine, and your user account on that machine should have appropriate permissions to write to the destination directory. If you encounter any issues related to file permissions or access, you may need to contact the system administrator or the owner of the remote machine for assistance.
+or we can do using ansible , or uploading a file to stirage solution and downloading in vm via storage solution we have.
 
 --------
 ---------
@@ -569,8 +529,8 @@ Save this script as `test.sh`, make it executable (`chmod +x test.sh`), and then
 This script will identify and print the positions of "c" among the parameters, and it can handle any number of parameters in any order.
 
 --------------------------
--------------------------
------------------------
+--------------------------
+--------------------------
 
 Q11 : Have you worked on ansible adhoc command ?
 - ans :
