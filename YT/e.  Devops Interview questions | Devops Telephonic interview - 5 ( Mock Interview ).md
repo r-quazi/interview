@@ -40,4 +40,118 @@ Here's a breakdown of what the `.git` directory typically contains:
 
 It's important to note that while the `.git` directory contains all the essential information about the repository, it's typically hidden from casual users to prevent accidental modification, as altering the contents of this directory can lead to data loss or corruption in your Git repository. Most Git commands and tools interact with the `.git` directory on your behalf, so you don't usually need to access or modify it directly.
 
+
+```
+.git/
+├── branches/
+├── config
+├── description
+├── HEAD
+├── hooks/
+│   ├── applypatch-msg.sample
+│   ├── commit-msg.sample
+│   ├── fsmonitor-watchman.sample
+│   ├── post-update.sample
+│   ├── pre-applypatch.sample
+│   ├── pre-commit.sample
+│   ├── pre-merge-commit.sample
+│   ├── pre-push.sample
+│   ├── pre-rebase.sample
+│   ├── pre-receive.sample
+│   ├── prepare-commit-msg.sample
+│   └── update.sample
+├── index
+├── info/
+│   └── exclude
+├── logs/
+│   ├── HEAD
+│   └── refs/
+│       ├── heads/
+│       └── remotes/
+├── objects/
+│   ├── info/
+│   └── pack/
+├── refs/
+│   ├── heads/
+│   ├── tags/
+│   └── remotes/
+└── packed-refs
+
+
+```
+
+
+```
+
+
+.git/                  # The root directory of the Git repository.
+
+├── branches/          # Directory containing branch references.
+
+├── config             # Configuration file for the Git repository.
+
+├── description        # A file that describes the Git repository.
+
+├── HEAD               # A symbolic reference pointing to the currently checked-out branch.
+
+├── hooks/             # Directory for Git hooks, which are custom scripts that run on specific Git events.
+
+│   ├── applypatch-msg.sample        # Sample hook script executed before applying a patch.
+
+│   ├── commit-msg.sample            # Sample hook script executed before committing.
+
+│   ├── fsmonitor-watchman.sample    # Sample hook script related to filesystem monitoring.
+
+│   ├── post-update.sample           # Sample hook script executed after updates.
+
+│   ├── pre-applypatch.sample        # Sample hook script executed before applying a patch.
+
+│   ├── pre-commit.sample            # Sample hook script executed before committing.
+
+│   ├── pre-merge-commit.sample      # Sample hook script executed before merging a commit.
+
+│   ├── pre-push.sample              # Sample hook script executed before pushing.
+
+│   ├── pre-rebase.sample            # Sample hook script executed before rebasing.
+
+│   ├── pre-receive.sample           # Sample hook script executed on the server before receiving data.
+
+│   ├── prepare-commit-msg.sample    # Sample hook script executed after a commit message is prepared.
+
+│   └── update.sample                # Sample hook script executed during a reference update.
+
+├── index               # The Git index file, which stores the current state of the working directory.
+
+├── info/               # Directory for various information and settings.
+
+│   └── exclude         # A file that specifies patterns to be excluded from tracking.
+
+├── logs/               # Directory containing logs of branch updates.
+
+│   ├── HEAD            # Log file for the HEAD reference.
+
+│   └── refs/           # Directory containing logs for branch and remote references.
+
+│       ├── heads/      # Logs for branch references.
+
+│       └── remotes/    # Logs for remote references.
+
+├── objects/            # Directory where Git stores its object database.
+
+│   ├── info/           # Directory containing additional information about objects.
+
+│   └── pack/           # Directory for packed object files.
+
+├── refs/               # Directory containing Git references (branches, tags, remotes).
+
+│   ├── heads/          # Directory containing references to branch heads.
+
+│   ├── tags/           # Directory containing references to tags.
+
+│   └── remotes/        # Directory containing references to remote branches.
+
+└── packed-refs         # A file that contains references to packed objects in the repository.
+
+
+```
 NO VOICE -----------------
