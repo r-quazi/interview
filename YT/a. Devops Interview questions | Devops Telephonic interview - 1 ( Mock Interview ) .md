@@ -7,7 +7,36 @@
 
 Q1 : Brief me all the tools you have worked on and daily activites you used to work on ?
 - ans :
+I started my carrier as Wordpress devloper in an NGO where i have devloped website and integrated razorpay payment method , added O Auth for facebook login and gmail login using the APIs and  worked with cloudflare as  CDN which helped to decrease  the latency also reduced some ddos attacks, integrated mailchimp for mass email and done some admin activities on cpanel.
 
+
+later i joined HB initiatives as a devops engineer that was an startup here my responsibilities include creating ci cd pipeline , code quality check usning sonarqube , dockerizing the app, and used jfrog for the artifact after the testing phase i deployed to aws where i used s3, cloudfront, route53 , ecr. and  fargate.
+
+
+i joined amazon as a cloud/client support associate later moved to build and release engineer and now supporting as resolution specialist. i won as bright thinker award 3 times for improving the process , reducing the waste, creating dashboard which improved the productivity .
+
+
+we were launching a new crm software and that was the pilot project for india and germany region and both regions had around 35-40 microservices and we created seperate pipeline for these , for planning we have internal tools river, sim , tt , quip, quip kanban board etc and a wiki site for documentation .
+The code was available on codecommit we used aws devops services like codebuild codecommit , codedeploy , cloud9, artifacts were stored in s3, codeguru , etc.
+
+
+in CSA i worked with germany, austria, japan , na clients. they might come up with multiple queries and we check the accounts and help them with the solutions.  i worked for this role for few months only later i used to perform aws related tasks it can managing route52, elb , configuring lambda,aws transcribe, etc generally it depends on what task assigned to me.
+
+
+few projects that i worked on are :
+
+we had new hiring aroung 450 nhts in retail domain and they upload picture to the profile so whenever they upload it used to store in s3 so the issue was NHTs were uploading images of 2-3 MB which directly shooted the s3 cost , so we had configured an event whenever a upload detects in bucket it used to trigger a lambda fuction which reducec the cost and store the image in another bucket and we had added a lifecycle policy to the first s3 bucket. so 1st it take 20 mb to stores 10 images afetr that it used to take 4 MB and the cost was reduced.
+
+
+i have worked with migrating the monolith architect to serverless as well, we  had nodeapp running on ec2 and databse were configured on that ec2 only though it was for internal team however sometimes we need to scale and we need to scale the whole ec2 which is not a good idea, we migrated the mysql server from ec2 to amazon aurora serverless with downtime of around 50 mins and backup restore took around 70 mins.  uploaded the website from ec2 to s3 which reduced the cost and no need to manager extra overhead of autoscaling, loadbalancing etc. 
+
+
+one of the teams requirement was to deploy on lightsail that was a lamp architecture lightsail is quite easy as compared to ec2 however if we need more customization we should prefer ec2 only. the db creation is just a click away , can launch apache and php server in just a single click , lightsail also supports cdn and loadbalancer etc.
+
+ few other configuration need for every project like cloudwatch, IAM, lifecycle policies, macie, tower and organization , vpc, security group etc.
+
+
+whenever a project or task assigned to me i always go to quip that was the project manageement tool we have used we can also use jira and confluenec , so i aways update the details , find the related information and once resolved update the documentation there.
 
 __________
 
