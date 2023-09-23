@@ -1,3 +1,4 @@
+
  ## Devops Interview questions | Devops Telephonic interview - 1 ( Mock Interview ) 
  
 * Mock : https://www.youtube.com/watch?v=i7YJesoeWFI&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7EJAq
@@ -1593,9 +1594,47 @@ After following these steps, you should be able to log in to Jenkins with the ne
 
 
 -------------------------------------
+--------------
+--------------
+----------------
+
+# Docker
 
 Q26 : Any best practices for docker ?
 - ans :
+
+There are several best practices for performance, security, manageability , reliability and availability.
+
+1. whenever creating a customized images :
+- Always start with a minimal base image that contains nexessary components for application to run.
+- always use official docker images from trusted sources.
+- use the images  having upsated security.
+- reduce number of layers to improve build and runtime performance
+- Use multistage builds to create smaller images by copying necessary files. and removing intermediate files.
+- regularly update the base image to include security update
+- avoid running container as root user.
+- grant container only the necessary priviledges
+- should use image scanning tools to identify vulnerabilities in images
+- use docker compose for multi container applications we can define all the servoces and dependencies in a single YAML file,
+- Allocate appropriate CPU and memory resources to containers based on their requirements, we can update resource limits and reservation to prevent resource contentation
+- use docker system prune regualry to remoe unused container images and volumes to freeup disk space 
+- we should run only one rocess in a container .This makes it easier to scale, manage, and troubleshoot containers.
+- we should not hardcode configurations values inside container images, we should provide these values using envt variables
+- can implement health check eg liveness and readiness probe
+- should enable monitoring and enable log retention , life cycle policies.
+- use docker volumes and persistent data.
+- avoid storing imp data inside container
+- version the image and  use tagging
+- we should implement disaster and backup recoveryfor data stored in container volumes
+- document everything 
+- automate the container lifecycle using the container orchestration tools to automate deployement, scaling, etc
+- optimize the caching for image layers when building the images
+- use .dockerignore file to ignore files that need not to be in container
+
+
+---------------------------
+
+
 
 Q27 : Difference between docker kill and docker stop ?
 - ans :
@@ -1619,6 +1658,8 @@ Q32 : Have you worked on docker swarm and docker compose ?
 ------------
 ----------
 -----------------------
+
+# Kubernetes
 
 Q33 : Can we have multiple conatiners in a pod?
 - ans :
