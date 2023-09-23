@@ -1615,23 +1615,192 @@ Q31 : can we have multiple CMD in Dockerfile ?
 Q32 : Have you worked on docker swarm and docker compose ?
 - ans :
 
-
+----------
+------------
+----------
 -----------------------
 
 Q33 : Can we have multiple conatiners in a pod?
 - ans :
+Yes, in Kubernetes  we can run multiple containers within a single pod. A pod is the smallest deployable unit in Kubernetes, and it can contain one or more containers that share the same network namespace, storage volumes, and some other resources. it is commonly used for various purposes, such as co-locating containers that work together as part of a single application or including sidecar containers for tasks like logging, monitoring, or data synchronization.
+
+The primary reason that Pods can have multiple containers is to support helper applications that assist a primary application. however it will be a tightly coupled architecture and we are handling it as a single unit which is not a good practice.
+
+
+
+Example manifest file : 
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container-pod
+spec:
+  containers:
+  - name: web-server
+    image: nginx:latest
+  - name: logging
+    image: fluentd:latest
+    volumeMounts:
+    - name: log-volume
+      mountPath: /var/log
+  volumes:
+  - name: log-volume
+    emptyDir: {}
+
+```
+
+Few pros of this are effeciency since it shares the same resources and dependencies it can imrove performance and reduces cost.
+
+communication using the same network namespaces is easy and no hard network configurations needed however if one container is vulnerable then hacker can access data for  other containers as well.
+
+Management ans scaling is very easy as the whole stack is in single pod.
+
+Generally we use this approach in : 
+    A web server pod with a sidecar container that handles logging.
+    A database pod with a sidecar container that provides backup and recovery functionality.
+    A microservices pod with multiple containers that provide different pieces of functionality.
+
+----------------------
 
 Q34 : Can we have similar conatiners in a pod? Lets say i have 4 conatiners, one of them has failed how would you check which container has failed?
 - ans :
 
+Yes, we can have multiple containers running within a single podin k8. this is useful for running multiple instances of same application or for running different application that share same resources. these containers share the same network namespaces and can communicate with each other via localhost. These containers can be same or different like sidcar containers for logging , monitoring,  or other tasks.
+
+if we have multiple containers in pod and one of them is failed then we can determine using : 
+
+
+we can filter the results if we have so many containers .
+` kubectl get pod <pod-name> -o jsonpath='{.status.containerStatuses[?(@.state.terminated)]}'`
+
+
+logs for specific container within a pod ` kubectl logs <pod-name> -c <container-name>`
+
+or using the pod status ,if one of the container has failed the pod status will reflect this. we can see "Error" or "CrashLoopBackOff" state.
+
+`kubectl get pods`
+
+Using the events also we can find that. we can get the detailed info about pods and its containers and we can check event section  for any event related to container failures.
+`kubectl describe pod <pod-name>	`
+
+
+other than this if we  have configured monitoring and alerts that may work as well. we can also use k8 dashboard for the same.
+
+
+---------------------------------
+
 Q35 : What is liveness and readiness probe? Why we need them?
 - ans :
+Liveness and readiness probes in k8  is essential to get the reliability and availability of applications  running in containers, both are for  differnt purposes i.e health anf readiness of pods.
+
+Liveness porbe :
+Liveness porbe is used to determine whether a container within a pod is alive and healthy. it helps k8 to identify and restart containers that are crashed or non responsive state,
+
+so how exactly it works ,  liveness probe periodically sends a request to a specified endpoint (HTTP, TCP socket, or an arbitrary command) within the container. If the container responds successfully (e.g., returns a 200 OK HTTP status code or the command exits with a success status), Kubernetes considers the container to be healthy. If the probe fails after a certain number of consecutive attempts, Kubernetes restarts the container. If a liveness probe fails, Kubernetes will restart the container
+
+It is mainly used to recover from situations where a container may have entered a deadlock state , or become unresponsive due to resource constraints , or container crashed etc. It mainly helps us to identify which endpoints are available to serve traffic and improve availability.
+
+
+Readiness Probe : 
+Readiness porbe is used to determine whether a container is ready to accept incoming traffic and server requests, and pods should not handle the traffic untill the application is ready.  If a readiness probe fails, Kubernetes will not route traffic to the container
+
+ Similar to the liveness probe, the readiness probe sends requests to a specified endpoint within the container. If the probe succeeds, the container is considered ready. If it fails, the container is marked as not ready, and Kubernetes removes it from service until it passes the probe again.
+
+It is used to prevent traffic from being sent to containers that are still initializing , starting or in the process of loading application dependencies
+
+
+We need both readiness and liveness for improving availability, traffic control, resource effeciency, and graceful startup and shutdown. both health checks may run at regular intervals and if probe fails k8 can take corrective actions such as restarting container or stopping traffic from being routed
+
+probes can be configured for containers in Kubernetes deployments and daemon sets.
+Example :
+```
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+```
+
+
+-----------------
 
 Q36 : Have you worked on kubernetes monitoring? Which tools you have used?
 - ans :
+K8 cluster monitoring is one of the main process to ensure health , performance, and reliability of containerized application, there are various open source and managed platforms available for both on prem and cloud k8 clustor monitoring.
+
+Prometheus :  it is open source monitoring and alerting tool we can set prometheus to scrape metrics from k8 nodes , pods and services and if there is any issue it can trigger an alert this functionality is provided by alertmanager,
+prometheus also provides custom libraries which extends the funtionaliyu or we can use open telemetry to gain deeper insights into application peroformance 
+
+Grafana : we can use grafana with prometheus for custom dashboard ,  we can create  new dashboard or download dashboard i.e json file, it has user fiendly interface and we can easily monitor overall health and performance and can share the dashboards as well.
+
+Kube state metrics : it is k8 tool to gain insights into state of k8 objects such as deployment, pods and services. k8 dashboard is also available it is web based ui and provides overview of k8 cluster. it can be  used to monitor health of nodes,pods,services. kubewatch is also available it is an event minitor for k8 cluster. we can use to monitor for events such as pod creation ,termination ,node outage, service failure etc.
+
+CAdvisor : to monotor the container cadvisor is a good tool by google, it collects detailed performance metrics for containers like cpu usage, memory utilization, network statistics etc depends on what kind of container we deployed.
+
+we can also use elasticsearh, fluentd and kibana i. EFK Stack to capture and analyze logs  and there are other tools as well like jaeger or zipkin for distributed tracing across microservices in k8. Jaeger is a good tool for monitoring because it allows us to see how requests are flowing through our application and identify performance bottlenecks
+
+
+
+These monitoring solutions generates data and we also have logs alredey generationg  for this we can use the retenetion policies or lifecycle policies.
+
+
+
+
+---------------
 
 Q37 : Can we deploy a pod on particular node?
 - ans :
+
+Yes, we can deploy a pod in particular node in k8 cluster by using node affinity, node selector, taints and tolerations, or using nodename field.
+
+We can use node affinity which allows us to restrict on which node our pod is eligible to schedule based on  node labels. and we can set up affinity rules to deploy a pod on nodes with specific labels.
+
+```
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: <label-key>
+          operator: In
+          values:
+          - <label-value>
+
+
+
+```
+
+we can also use node selector to schedule pod on specific node with specific label.
+
+```
+nodeSelector:
+  <label-key>: <label-value>
+
+```
+
+we can also use taint and tolerations , taints allows nodes to repel pods and tolerations allows pods to tolerate certain limits  by applying these we can deploy pods on particular nodes.
+
+```
+kubectl taint nodes <node-name> <taint-key>=<taint-value>:NoSchedule
+
+```
+```
+tolerations:
+- key: <taint-key>
+  operator: Equal
+  value: <taint-value>
+  effect: NoSchedule
+
+```
+
+we can also specify nodename field directly in the pod definition .
+```
+nodeName: <node-name>
+
+```
+
 
 -----------------------
 
