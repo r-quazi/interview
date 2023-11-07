@@ -44,6 +44,50 @@ __________
 Q2 : so you worked on git right , so it only push , pull or you have also worked on admin activity ?
 - ans :
 
+
+```
+Worked on :
+      -  pull
+      -  push, 
+      -  clone ,
+      -  fetch
+
+Admin,poc,dev : 
+        - access control,
+        - repo management,
+        - branching strategies,
+        -  code reviews , 
+        - issue tracking,
+        - backup and recovery
+        - git maintenance
+        - compliance n security  , git hooks
+
+Worked on GitWebhook for jenkins :
+  - commit jenkins job trigger
+  - pat token , permission 
+  - github webhook : 
+                  -  api ,  json paylod  , endpoint
+                  -  protocols tcp udp grpc http
+                  - 2 way handshake , data sent and received
+                  -  new code job trigger 
+
+Github to codecommit migrate :
+  - create codecommit repo
+  - clone that repo need iam role / user
+  - clone  git repo
+  - update origin url via command or from file in .git
+  - push the repo 
+  - multiple branches use --all or a script 
+
+Github to azure repo :
+  - git owned by microsoft so  backedn tech same
+  - create repo
+  - use import option and provide url , pat
+  - done
+
+Github to oracle : same as aws
+
+```
 I have worked mostly on git push and pull , clone , fetch , as I worked as devops engineer, most of the admin activities were performed by the developer or the repo admins they used to perform admin activities like access control, repository management, branching strategies, code reviews , issue tracking, backup n recovery, git maintenance, compliance and security, got hooks . 
 
 I have worked on GitHub webhook, whenever there's a commit a jenkins job used to trigger , and I have created pat token for the Authorization by selecting the correct permissions. GitHub webhook is nothing but an api request. It send tha data i.e http post and send some json payload to the endpoint we have configured. There are various api protocols like grpc , http, UDP , TCP here it uses http protocol for the communication and here it performance two way handshake let's suppose it sends some data to jenkins, jenkins will reply back as the data has been received and triggers the job by fetching the changs. 
