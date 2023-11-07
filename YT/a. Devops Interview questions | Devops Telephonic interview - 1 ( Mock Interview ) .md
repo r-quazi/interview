@@ -108,10 +108,38 @@ when setting up webhooks or migrating repositories, it's crucial to consider sec
 __________
 ---------
 
+
+
+
 Q3 : Why we need git and what it makes unique from other tools like SVN ?
 
 - ans :
 
+
+```
+both version control
+ - Git : VCS
+ - SVN : RCS
+
+Git VS SVN : 
+  - operates locally
+  - can code without internet / connecting to main repo
+  - need to connect to repo for push n pull
+  - helps limit network traffic 
+  - reduces cost ( AI LLMP repo 1.8 GB )
+  -  SVN limited offline capabiloties
+  - avoid single oint o failures , repo in every  vm
+  - if deleted can restore  -- branches ALL
+  - svn can be single point of fail ( untill backup )
+  - in git dev canwork independently  merge conflicts can be resolved
+  - svn better for RBAC , 
+
+selection Git vs SVN depends on security
+code commit no svn , we need to migrate svn to git to codecommit
+
+azure support both dvcs and cvcs
+
+```
 Git vs SVN
 
 Git and svn are both version controls systems howvever Git is more vcs and SVN is RCS,
