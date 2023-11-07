@@ -11,6 +11,8 @@ Q1 : Can you tell me what are tools you have used and your daily activities ?
 ----
 ----
 
+# Git :
+
 Q2 : What work have you did in git like only related to devops or other as well ?
 -ans :
 
@@ -112,6 +114,20 @@ Q3 : Lets say your organization has github and bitbucket to store code, you have
 
 -ans :
 
+```
+-  can use the hitory command to find if we made any changes and we can pipe the command with grep to 
+
+-  history | grep "git clone *"
+-  git remote  -v
+-  from configfile located in .git
+-  from ducumentation
+-  git creds manager
+-  system logs
+-  git activity notification
+-  browser history
+
+```
+
 Whenever we clone the repository the code will be cloned in folder which has the same name as git repo , or if we downloaded zip file ithas the same name as repo , and if we changed the name of folder for example frontend-login-activity   to frontend-login-feature  and suppose if we try to find the repository using frontend-login-feature we  will be unable to find the repo on github , in this case we have several options to find the repo.
 
 1. we can use the hitory command to find if we made any changes and we can pipe the command with grep to filter only relevant result for the name change of the folder ,
@@ -144,9 +160,26 @@ Whenever we clone the repository the code will be cloned in folder which has the
 ----
 
 
-
 Q5 :  I have shell script to delete particular dependency ( repo is maven project ). before running the script i need to clone repo to my local, here point to note i should only clone master branch and only last commit ( last commit has all the code ) how would you do this?
 -ans :
+
+```
+
+-  shallow clone
+-  Clone the repository (only the 'master' branch with the latest commit) : 
+`git clone --single-branch --branch master --depth 1 "$REPO_URL" "$CLONE_DIR"`
+
+-  --depth is like tree
+-  later can update via `git fetch origin master`
+
+-   we can create archive but that will remove all git metadata
+
+- Pros :
+  -  cicd , small metadata , faster job process 
+  -  reducing bandwith ... cloud
+  -  helpful for automateed  code reviews, automated tasks
+
+```
 
 We can do this using the shllow clone. 
 We can clone a single branch using the flag `--single0branch` however it will clone only master or main branch if we need to specify a particulra branch we can using `--branch <branch name>` to clone the particukar branch the we need to use `--depth  1` to clone only last commit.
@@ -160,7 +193,7 @@ git clone --single-branch --branch master --depth 1 "$REPO_URL" "$CLONE_DIR"
 
 The `--depth ` option is like a tree where the smaller number we provide will give less details lest suppose as leaves of tree , the larger the number it ill go down more providing more details like trunk to root of tree.
 
-After performing shallow clone with limited depeth if there is any update in the repository we can use   `git fetch origin master`  and `git reset --hard origin/master`   here we canupdate it to the latest commit .
+After performing shallow clone with limited depeth if there is any update in the repository we can use   `git fetch origin master`  and `git reset --hard origin/master`   here we can update it to the latest commit .
 
 now we have acheived both minimal hostory and latest code
 
@@ -179,9 +212,9 @@ This approach provides a clean snapshot of the code without any Git-related meta
 Cloning the repo with latest commit will have recent updated code this migt be helpful in scenarios such as :
 1. CICD : Since we have only last commit means we have small metadata so the jenkins server will process the job a little faster and the memory consumption will be less aswell , as we are storing/ clonihg  only required data.
 
-2.   Reducing bandwith : If e are using EC2 for develeopers , indeed we have incoming traffic free however the utgoing traffic will have charges depending on the bandwith  , ampiunt of data transfer so fetchng onu required data will help us to mantain te cost as well , ets suppose we are creating a jenkins job then a container or storing / archiving th artifact or pushing to git repo all these are outgoing traffic .  and gere we can save a cost , This can be helpful when we have 1000s of devs , testers etc.
+2.   Reducing bandwith : If we are using EC2 for develeopers , indeed we have incoming traffic free however the utgoing traffic will have charges depending on the bandwith  , ampiunt of data transfer so fetchng onu required data will help us to mantain te cost as well , ets suppose we are creating a jenkins job then a container or storing / archiving th artifact or pushing to git repo all these are outgoing traffic .  and here we can save a cost , This can be helpful when we have 1000s of devs , testers etc.
 
-3.  cloning single repo with less deothe can also be helpful for automateed  code reviews, automated tasks ,    and we can easily manage large repositories.
+3.  cloning single repo with less depth can also be helpful for automateed  code reviews, automated tasks ,    and we can easily manage large repositories.
 
 
 
@@ -194,7 +227,19 @@ Cloning the repo with latest commit will have recent updated code this migt be h
 Q6 : what is submodule and why we need submodule?
 -ans :
 
-Git Submodule is a mechanism whih allows us to include one git repo as a subdirectory withib another git repository.
+```
+
+-   include one git repo as a subdirectory within another git repository.
+-  nested repo, submodule nested inside superproject
+-  easy to manage and version control external libraries / dependencies within project
+
+-  useful for large project dependant on other project , different teams , project relies on same set of libraries
+-   isolation , version control , update and bug fix to external repo
+
+- comands `git submodule -----`
+```
+
+Git Submodule is a mechanism whih allows us to include one git repo as a subdirectory within another git repository.
 
 so we are nesting the repositories here, One git repo i.e submodule is nested  inside nother git repo i.e Superproject.
 
@@ -251,7 +296,11 @@ Q7 : Lets say you have changed 5 files a,b,c,d and e in a repo and you did git a
 -ans :
 
 
-
+```
+- git reset head d
+-   git restore --staged d
+-  index file : not recommended it is binary
+```
 If we made  changes to multiple files and these files are tracked then   we used `git add . ` to move all the files to staging area but if we want to remove some files from staging area we can use git reset feature.
 
 So the command looks like : `git reset HEAD d`
@@ -280,6 +329,8 @@ To interact with the index or staging area, it's recommended to use Git's high-l
 
 ----
 ----
+
+# Maven :
 
 
 Q8 :  what is multi module project in maven and what are the setting you want to do in multi module parent and child project ? what is dependency management ?
