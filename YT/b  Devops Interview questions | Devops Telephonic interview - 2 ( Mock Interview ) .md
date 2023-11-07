@@ -14,25 +14,52 @@ Q1 : Can you tell me what are tools you have used and your daily activities ?
 Q2 : What work have you did in git like only related to devops or other as well ?
 -ans :
 
-I have worked mostly on git push and pull , clone , fetch , as I worked as devops engineer, most of the admin activities were performed by the developer or the repo admins they used to perform admin activities like access control, repository management, branching strategies, code reviews , issue tracking, backup n recovery, git maintenance, compliance and security, got hooks .
+```
+Worked on :
+      -  pull
+      -  push, 
+      -  clone ,
+      -  fetch
 
-I have worked on GitHub webhook, whenever there's a commit a jenkins job used to trigger , and I have created pat token for the Authorization by selecting the correct permissions. GitHub webhook is nothing but an api request. It send tha data i.e http post and send some json payload to the endpoint we have configured. There are various api protocols like grpc , http, UDP , TCP here it uses http protocol for the communication and here it performance two way handshake let's suppose it sends some data to jenkins, jenkins will reply back as the data has been received and triggers the job by fetching the changs.
+Admin,poc,dev : 
+        - access control,
+        - repo management,
+        - branching strategies,
+        -  code reviews , 
+        - issue tracking,
+        - backup and recovery
+        - git maintenance
+        - compliance n security  , git hooks
 
-I have also migrated the GitHub repo to code commit. Here we need to create a repo in code commit then need to clone in the local laptop or whatever machine we are using, while cloning we may need some permission to access the code commit repo for this we can use iam role attached to vm in case our machine is ec2 or we can create AWS iam user by giving proper set of permissions. Then we can clone the code commit repo we also need to clone gitrepo if the repo is private we may need pat token then update the config file i.e located in .git folder where we need to update origin url or we can use the command to update origin url , a better way to use the command so we can track the changes by AWS Cloudwatch agent or any other monitoring agent if we are using.
+Worked on GitWebhook for jenkins :
+  - commit jenkins job trigger
+  - pat token , permission 
+  - github webhook : 
+                  -  api ,  json paylod  , endpoint
+                  -  protocols tcp udp grpc http
+                  - 2 way handshake , data sent and received
+                  -  new code job trigger 
 
-After updating the origin url we can push the repo to code commit here we need to make sure every branch is pushed. We can use command to push all branches or if we have so many branches we can use a script to do that aswell , script may include a loop to push the branch one by one.
+Github to codecommit migrate :
+  - create codecommit repo
+  - clone that repo need iam role / user
+  - clone  git repo
+  - update origin url via command or from file in .git
+  - push the repo 
+  - multiple branches use --all or a script 
 
-In azure the migration is very simple as git is owned by Microsoft only we just need to enter the git url and pat token and by using import option the whole git repo will be migrated.
+Github to azure repo :
+  - git owned by microsoft so  backedn tech same
+  - create repo
+  - use import option and provide url , pat
+  - done
 
-For Oracle also we need to follow the steps like AWS.
-
-when setting up webhooks or migrating repositories, it's crucial to consider security measures. For GitHub webhooks, using a secret token and verifying the HMAC signature of incoming payloads helps ensure data authenticity. also the pat token should be stored in key vaults of the respective cloud services AWS Azure Oracle considering the sensitivity. and while configuring the roles of giving permissions we should follow the rbac and least privileged.
+Github to oracle : same as aws
 
 
-*************** NEW ANSWER HERE *************************** 
+```
 
 And for my personal git profile i have created orgnization , i have also worked with github api to delete the repository which are more than 2 years old and do not have any activity .
-
 here is the script :
 
 ```
