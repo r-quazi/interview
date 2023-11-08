@@ -15,6 +15,52 @@ GIT
 1. What is git-cherry-pick? why we use it?
 Ans :
 
+```
+
+
+Git Cherry-Pick Guide
+
+Purpose: Apply specific commits from one branch to another without merging the entire branch.
+Usage: Transfer individual changes, undo accidental commits on wrong branches, and revitalize lost commits from closed PRs.
+
+Common Scenarios:
+
+Undoing Changes:
+- Wrong Branch Commits: Switch to the correct branch and use git cherry-pick <commit-hash> to apply the commit.
+
+Backporting Fixes:
+- Apply bug fixes to older branches selectively with git cherry-pick.
+
+Splitting Commits:
+- For commits with multiple changes, cherry-pick allows splitting into smaller commits.
+
+Reordering Commits:
+- Change commit order or move between branches with cherry-pick.
+
+Example Workflow:
+
+Fixing Bugs Quickly:
+1. Bug identified during new feature development.
+2. Create a commit for the bug fix.
+3. Cherry-pick the commit to the main branch: git cherry-pick <commit-hash>
+
+Steps to Cherry-Pick:
+
+1. Ensure you're on the target branch where the commit should be applied.
+2. Run git cherry-pick <commit-hash> for a single commit.
+   - For multiple commits, list all commit hashes.
+3. Resolve any conflicts that occur.
+4. Continue with git cherry-pick --continue or abort with git cherry-pick --abort.
+
+Caveats:
+
+- Commit Duplication: Be cautious as cherry-picking can duplicate commits.
+- Merge Histories: Overuse can complicate merge histories.
+
+Remember: While cherry-pick is powerful, prefer merging over cherry-picking when dealing with multiple commits to maintain a clean history.
+
+```
+
 
 Git cherry pick is used to apply specific commits from one branch to another , we can pick individual commits and apply them to your current workingbranch  without merging the entire branch  . we can selected specific changes from branch and cherry pick them into another branch.
 
@@ -63,7 +109,20 @@ the crrypick is useful however   it can lead to commit duplication and complex m
 2. Let’s say you’re working on new feature in some branch, now your manager says stop working on that and change few other things on old code. Here after changing the old code, I need to work on new code, so I need to place my new changes some place How would handle this scenario?
 
 
-Ans : 
+- Ans :
+
+```
+- git stash save "sdf"
+-  git checkout ol-branch
+-  git commit -m "maonf"
+-  git chekout stashed-branch
+-  git stash apply
+
+for local only -- trmporary private commit
+not pushed on internet for officepc -> homepc no access
+
+
+```
 In this case we can use the git stash , Stashing is a handy way to temporarily save your changes while you work on something else, and it helps you avoid cluttering your commit history with incomplete work.
 
 
@@ -91,13 +150,30 @@ If you want work remotely you must commit and push. for example i am doing work 
 -------
 ------
 3. What is a conflict in git? have you worked on it ?
-Ans :
+
+- Ans :
+
+```
+- conflict may arise when... git cant determine wrong /correct
+- only affects dev conducting merge other unaware
+- merging will halt unless conflict resolved
+- dev responsibility to resolve conflict
+-  easy ib git as comp. to svn 
+-  can use git status to get the detail about conflict shows modified file and commit , flags
+-  file identified , update code then merge
+-  git diff helpful , <<< ===>>>
+-  can avoid conflict using git fetch , communication , seperate branches 
+
+
+
+```
+
 The conflicts may arise when two  people have changed the same lines in a file, or if one developer deleted a file while another developer was modifying it.In these cases, Git cannot automatically determine what is correct. Conflicts only affect the developer conducting the merge, the rest of the team is unaware of the conflict. Git will mark the file as being conflicted and halt the merging process. It is then the developers' responsibility to resolve the conflict.
 
 In SVN resolving conflicts is hardand time consuming in git it can be resolved quickly via git conflict tools whenver we merge a branch or a file cmmitted.
 
 
-We can use git status to find the details about conflicts  it will show which file is mofidfied and related commits , we cn provide flags or options to get more detailes.
+We can use git status to find the details about conflicts  it will show which file is mofidfied and related commits , we can provide flags or options to get more detailes.
 
 once the file is identified we can edit the file make some changes and commit then we can merge it.
 
