@@ -513,6 +513,9 @@ Here are some tips for speeding up Maven builds:
 
 ----------------------------
 
+# Linux :
+
+
 Q11 : how to get present working folder ? 
 - ans :
 
@@ -671,6 +674,9 @@ This script will identify and print the positions of "c" among the parameters, a
 --------------------------
 --------------------------
 --------------------------
+
+# ANSIBLE :
+
 
 Q11 : Have you worked on ansible adhoc command ?
 - ans :
@@ -1744,27 +1750,224 @@ There are several best practices for performance, security, manageability , reli
 
 ---------------------------
 
-
-
 Q27 : Difference between docker kill and docker stop ?
 - ans :
+
+In Docker, both `docker stop` and `docker kill` commands are used to stop running containers, but they differ in their behavior and the signals they send to the container. Here's the difference between `docker stop` and `docker kill`:
+
+### 1. **`docker stop`:**
+- **Command:**
+  ```bash
+  docker stop [OPTIONS] CONTAINER [CONTAINER...]
+  ```
+- **Behavior:**
+  - Gracefully stops the running container by sending a `SIGTERM` (terminate) signal.
+  - Allows the container process to perform cleanup operations, such as saving state or releasing resources, before shutting down.
+  - The container is given a default timeout period (10 seconds) to stop gracefully. If the container doesn't stop within this period, a `SIGKILL` signal is sent.
+- **Example:**
+  ```bash
+  docker stop my_container
+  ```
+
+### 2. **`docker kill`:**
+- **Command:**
+  ```bash
+  docker kill [OPTIONS] CONTAINER [CONTAINER...]
+  ```
+- **Behavior:**
+  - Forcibly kills the running container by sending a `SIGKILL` (kill) signal.
+  - Does not allow the container process to perform any cleanup operations.
+  - Immediately terminates the container without waiting for any running processes to gracefully shut down.
+- **Example:**
+  ```bash
+  docker kill my_container
+  ```
+
+### Key Differences:
+
+1. **Signal Sent:**
+   - `docker stop` sends a `SIGTERM` signal, allowing the container to perform cleanup operations.
+   - `docker kill` sends a `SIGKILL` signal, forcefully terminating the container without giving it a chance to perform cleanup.
+
+2. **Graceful Shutdown:**
+   - `docker stop` allows for a graceful shutdown, giving the container a chance to clean up before termination.
+   - `docker kill` does not allow for a graceful shutdown; it immediately terminates the container.
+
+3. **Timeout:**
+   - `docker stop` has a default timeout period (10 seconds) for the container to stop gracefully. If the container doesn't stop within this period, a `SIGKILL` signal is sent.
+   - `docker kill` does not have a timeout; it forcefully terminates the container immediately.
+
+### Usage Guidance:
+
+- Use `docker stop` when you want to allow the container to perform cleanup operations before stopping. This is the recommended way to stop containers in most cases.
+  
+  ```bash
+  docker stop my_container
+  ```
+
+- Use `docker kill` when you need to forcefully and immediately terminate the container, without allowing it to perform any cleanup operations. This is more aggressive and should be used judiciously.
+
+  ```bash
+  docker kill my_container
+  ```
+
+In summary, the choice between `docker stop` and `docker kill` depends on the desired behavior and whether you want to allow the container to gracefully shut down or forcibly terminate it.
+
+------------------------
+
 
 Q28 : command to list containers which state is exited ?
 - ans :
 
+To list Docker containers that are in an "exited" state, you can use the `docker ps` command with the `--filter` option to filter containers based on their status. The following command lists all containers that are in the "exited" state:
+
+```bash
+docker ps --filter "status=exited"
+```
+
+Explanation:
+
+- `docker ps`: Lists containers.
+- `--filter "status=exited"`: Applies a filter to show only containers with the specified status, which in this case is "exited."
+
+This command will display information about containers that have exited, including their container ID, names, and exit status. If you want more detailed information about the exited containers, you can use the `docker ps -a` command with the same filter:
+
+```bash
+docker ps -a --filter "status=exited"
+```
+
+Adding the `-a` flag includes stopped containers in the listing.
+
+Remember that containers in the "exited" state are not actively running but may have been stopped for various reasons. You might want to check the exit codes and logs for further information:
+
+```bash
+docker logs <container_id>
+```
+
+Replace `<container_id>` with the actual ID of the exited container.
+
+-----------------------------
+
+
 Q29 : command to cleamup docker host ( deleting stopped containers, dangling images and unused networks ) ?
 - ans :
+
+To clean up a Docker host by deleting stopped containers, dangling images, and unused networks, you can use the following command:
+
+```bash
+docker system prune -a
+```
+
+Explanation:
+
+- `docker system prune`: This command is used to clean up Docker resources on the host.
+- `-a`: It removes all unused images, not just dangling ones. This includes both dangling images (those not associated with a container) and unreferenced images (those not associated with an existing image).
+
+Alternatively, you can use individual commands to clean up specific types of resources:
+
+1. **Delete Stopped Containers:**
+   ```bash
+   docker container prune
+   ```
+
+2. **Delete Dangling Images:**
+   ```bash
+   docker image prune
+   ```
+
+3. **Delete Unused Networks:**
+   ```bash
+   docker network prune
+   ```
+
+Using `docker system prune -a` is a convenient way to perform a comprehensive cleanup, removing multiple types of unused resources in one command. However, it's essential to be cautious when using the `-a` option, as it will remove all unused images, not just dangling ones. Ensure that you won't unintentionally remove images that are still in use.
+
+Remember that these cleanup commands irreversibly remove resources, so use them with caution, especially in a production environment. Always verify the impact of cleanup commands before running them on a production system.
+
+--------------------------------------
 
 Q30 : What version of docker you have used ? , specific reason to use that perticular version ?
 - ans :
 
+The specific version of Docker that I have used depends on the project that I am working on. However, I have used a variety of Docker versions, including:
+
+* Docker 20.10: I used this version of Docker because it added support for containerd 1.4, which is a more performant and stable container runtime.
+* Docker 23.03: I am currently using this version of Docker because it has further improvements to performance and stability, as well as new features such as support for building images from Dockerfiles that are written in Rust.
+
+
+
+I have also used a number of other versions of Docker, including older versions and newer versions than the ones I have listed here.
+
+The specific version of Docker that I use depends on the project that I am working on. I always try to use the latest stable version of Docker, but I may sometimes use an older version if there is a specific reason to do so. For example, I may use an older version of Docker if I am working on a project that requires a specific feature that is not available in the latest version of Docker.
+
+
+-----------------
+
 Q31 : can we have multiple CMD in Dockerfile ?
 - ans :
+
+
+In a Dockerfile, you can have only one `CMD` instruction. The `CMD` instruction specifies the default command to be executed when a container is run. If multiple `CMD` instructions are provided in a Dockerfile, only the last one will take effect, and the previous ones will be overridden.
+
+Here's an example of a Dockerfile with multiple `CMD` instructions:
+
+```Dockerfile
+FROM ubuntu:latest
+
+# CMD instruction - this will be overridden by the next CMD
+CMD ["echo", "First CMD instruction"]
+
+# Another CMD instruction - this will be the effective CMD
+CMD ["echo", "Second CMD instruction"]
+```
+
+In the example above, only the second `CMD` instruction will take effect when a container is run. The first one will be ignored.
+
+If you need to specify multiple commands or need more complex startup behavior, you can use a shell to run multiple commands. For example:
+
+```Dockerfile
+FROM ubuntu:latest
+
+# CMD instruction using a shell - runs multiple commands
+CMD echo "First command" && echo "Second command"
+```
+
+or we can use a script.
+
+This way, you can achieve the effect of running multiple commands, but it is executed within a shell.
+
+It's worth noting that the `CMD` instruction is often used for specifying the default command and parameters for the container, but it can be overridden at runtime by providing a command when running the container. For example:
+
+```bash
+docker run my_image echo "Override CMD with a different command"
+```
+
+In this case, the provided command will override the `CMD` specified in the Dockerfile.
+
+-----------------------
+
+
 
 Q32 : Have you worked on docker swarm and docker compose ?
 - ans :
 
+Yes, I have worked on both Docker Swarm and Docker Compose. They are both container orchestration tools that can be used to manage clusters of Docker containers.
+
+**Docker Swarm** is a container orchestration tool that is built into Docker Engine. It can be used to manage a cluster of Docker Engine instances and to deploy and manage applications on the cluster. Docker Swarm is a good choice for organizations that need a powerful and flexible container orchestration tool.
+
+**Docker Compose** is a tool that can be used to define and run multi-container Docker applications. It is a good choice for organizations that need a simple and easy-to-use tool for deploying and managing multi-container applications.
+
+I have used both Docker Swarm and Docker Compose to deploy and manage applications in production environments. I have found that both tools are effective and reliable. The best tool for a particular use case will depend on the specific requirements of the organization.
+
+
+
+
+
+
+
 ----------
+
+
 ------------
 ----------
 -----------------------
