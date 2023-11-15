@@ -116,6 +116,32 @@ To delete a remote branch, you can use the git push command with the --delete (o
 
 3. Difference between git diff and git status ?
 
+```
+- managing and understanding changes
+Git diff :
+ - show difference
+ - compare changes
+    -  between stating and working dir i.e git diff
+    -  between diff commits   branches/tags : git diff commit1 commit2
+  - provide detailed view of changes <<<===>>> , + , -
+  - git diff HEAD :  changes between working directory and the latest commit
+
+Git Status :
+  -  High level overview of current state of repo.
+  -  Info about :
+      -  modified files
+      - uncommitted files / untracked files
+      - current branch and ahead /behind commits
+  -  useful for quickly checking what need to do next   
+
+
+
+
+
+
+
+
+```
 
 `git diff` and `git status` are two Git commands that serve different purposes when it comes to managing and understanding changes in your Git repository:  git status only tells you the state of your file changes, git diff tells you the exact changes, 
 
