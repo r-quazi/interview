@@ -10,6 +10,31 @@ GIT
 1. What is git reset ? Types of reset ?
 Ans :
 
+```
+Git Reset :
+ -  undo changes
+ -  reset HEAD pointer
+ - index
+ - working directory
+ - combination of these
+
+Git checkout vs Git Resest :
+ - git reset does is it checkout to branch xyz also makes it main .
+ - git reset, moves both the HEAD and branch refs to the specified commit.
+
+-  Git revert is safer than git reset
+ - Never delete commit however it will orphaned ( no ref) but can be restored using git reflog 
+
+
+Type of reset :
+  -  --hard : very danger , destructive any pending work that was hanging out in the Staging Index and Working Directory will be lost.
+  -  --soft ;  ref pointers are updated , reset stops there. Staging Index , Working Directory  untouched.
+  - -- mixed  : default operation mode. The ref pointers are updated. The Staging Index is reset to the state of the specified commit. Any changes that have been undone from the Staging Index are moved to the Working Directory.
+
+Example: git reset --hard HEAD~1 will move the branch pointer one commit back and discard all changes made in the last commit.
+
+
+```
 
 Git reset is used to undo changes to your Git repository. It can be used to reset the HEAD Pointer, the index, or working directory  or it can be the combination of these three.
 
