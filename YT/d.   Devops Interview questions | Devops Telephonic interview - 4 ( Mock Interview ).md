@@ -184,6 +184,34 @@ In summary, `git diff` is used for inspecting the actual changes in code or cont
 
 4. What are hooks in git?
 
+```
+Git Hooks :
+  - Scripts that auto trigger when event happen
+  - used to automate tasks , enforce rules,
+  - validate changes b4 commit
+  - preventing commit to certain branches
+  - generating documentation
+  - notifying members
+  - 2 types : 
+	  - Client Side : executed on local machine
+	  - Server side : executed on remote  server
+
+- Hooks are stored i .git/hooks
+-  each hook is shell script name is same as event it triggers
+Steps to create Hook :
+- create file in .git/hooks
+- name pre-commit , post-commit 
+- add whatever script you want
+- chmod +x
+
+-- Git Hooks (script on local machine) and Git webhooks ( two application) both are different.
+
+Example :
+pre-commit: auto format the code
+post-commit: run tests
+pre-push: prevent commit on certain branches
+post-push:generate documentation
+```
 
 Git hooks are scripts that are automatically executed when certain events occur in a Git repository. They can be used to automate tasks, enforce rules, and validate changes before they are committed or pushed to a remote repository.
 
