@@ -9,6 +9,8 @@ GIT
 ---------------
 1. What is git reset ? Types of reset ?
 Ans :
+
+
 Git reset is used to undo changes to your Git repository. It can be used to reset the HEAD Pointer, the index, or working directory  or it can be the combination of these three.
 
 it  operates in a similar manner like git checout however the difference is pointer here , if abc is our main and Head and we checkout to xyz it will be branch xyz and main abc , but what git reset does is it checkout to branch xyz also makes it main .
