@@ -70,6 +70,20 @@ Example: git reset --hard HEAD~1 will move the branch pointer one commit back an
 
 2. How to delete local branch  and remote branch in git ?
 
+```
+Local Branch :
+
+-d or -D 
+-d : safe delete , It will prevent deletion if the branch contains changes that are not yet merged. ( can als use -f for force delete )
+
+- D : force delete , forcefully delete the branch, regardless of whether it contains unmerged changes.
+
+Remote Branch :
+`git push origin --delete branch_name`
+to check unmerge branch r uncommited changes we can do : git branch -v
+```
+
+
 Delete a Local Branch:
 
 To delete a local branch, you can use the git branch command with the -d or -D option, followed by the branch name:
