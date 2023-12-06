@@ -2111,47 +2111,107 @@ Yes, we can deploy a pod in particular node in k8 cluster by using node affinity
 
 We can use node affinity which allows us to restrict on which node our pod is eligible to schedule based on  node labels. and we can set up affinity rules to deploy a pod on nodes with specific labels.
 
-```
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: <label-key>
-          operator: In
-          values:
-          - <label-value>
-
-
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - k8s-worker1
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
 
 ```
 
 we can also use node selector to schedule pod on specific node with specific label.
 
-```
-nodeSelector:
-  <label-key>: <label-value>
+```yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: k8s-worker1
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+
 
 ```
 
 we can also use taint and tolerations , taints allows nodes to repel pods and tolerations allows pods to tolerate certain limits  by applying these we can deploy pods on particular nodes.
 
-```
+```bash
 kubectl taint nodes <node-name> <taint-key>=<taint-value>:NoSchedule
+kubectl taint nodes k8s-worker1 mytaint=example:NoSchedule
+
 
 ```
-```
-tolerations:
-- key: <taint-key>
-  operator: Equal
-  value: <taint-value>
-  effect: NoSchedule
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+  tolerations:
+    - key: mytaint
+      operator: Equal
+      value: example
+      effect: NoSchedule
 
 ```
 
 we can also specify nodename field directly in the pod definition .
-```
-nodeName: <node-name>
+```yaml
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  nodeName: k8s-worker1
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
 
 ```
 
