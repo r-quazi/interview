@@ -2025,7 +2025,7 @@ if we have multiple containers in pod and one of them is failed then we can dete
 
 
 we can filter the results if we have so many containers .
-` kubectl get pod <pod-name> -o jsonpath='{.status.containerStatuses[?(@.state.terminated)]}'`
+` kubectl get pod <podname> -o=jsonpath='{range .status.containerStatuses[*]}{.name}{"\t"}{.ready}{"\t"}{.state.waiting.message}{"\n"}{end}' `
 
 
 logs for specific container within a pod ` kubectl logs <pod-name> -c <container-name>`
@@ -2037,6 +2037,7 @@ or using the pod status ,if one of the container has failed the pod status will 
 Using the events also we can find that. we can get the detailed info about pods and its containers and we can check event section  for any event related to container failures.
 `kubectl describe pod <pod-name>	`
 
+events `kubectl get events --field-selector involvedObject.name=<pod-namw>`
 
 other than this if we  have configured monitoring and alerts that may work as well. we can also use k8 dashboard for the same.
 
@@ -2067,14 +2068,55 @@ We need both readiness and liveness for improving availability, traffic control,
 
 probes can be configured for containers in Kubernetes deployments and daemon sets.
 Example :
-```
-livenessProbe:
-  httpGet:
-    path: /healthz
-    port: 8080
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  failureThreshold: 3
+
+
+```yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /nginx-health/live
+        port: 80
+      initialDelaySeconds: 3
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /nginx-health/ready
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    startupProbe:
+      httpGet:
+        path: /nginx-health/startup
+        port: 80
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+
 ```
 
 
