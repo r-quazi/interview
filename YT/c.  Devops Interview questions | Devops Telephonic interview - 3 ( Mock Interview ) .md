@@ -446,4 +446,239 @@ Docker
 Kubernetes
 --------------------------------------------------------------------------------------------------------------------------------------
 33. List objects you know in kubernetes?Give a brief about each object?
+
+ans : 
+
+In Kubernetes, there are several core objects that define the desired state of your applications and infrastructure. Here's a list of common Kubernetes objects along with a brief description of each, and an example manifest file for each:
+
+### 1. **Pod:**
+- **Description:** The smallest and simplest Kubernetes object. A Pod represents a running process in a cluster and can contain one or more containers.
+- **Manifest Example (pod.yaml):**
+  ```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: myapp-pod
+  spec:
+    containers:
+    - name: myapp-container
+      image: myapp-image:latest
+  ```
+
+### 2. **Service:**
+- **Description:** Exposes a set of Pods as a network service. It provides a stable endpoint that can be used to connect to your application.
+- **Manifest Example (service.yaml):**
+  ```yaml
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: myapp-service
+  spec:
+    selector:
+      app: myapp
+    ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  ```
+
+### 3. **Deployment:**
+- **Description:** Manages the deployment and scaling of a set of Pods. It provides declarative updates to applications.
+- **Manifest Example (deployment.yaml):**
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: myapp-deployment
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: myapp
+    template:
+      metadata:
+        labels:
+          app: myapp
+      spec:
+        containers:
+        - name: myapp-container
+          image: myapp-image:latest
+  ```
+
+### 4. **Ingress:**
+- **Description:** Exposes HTTP and HTTPS routes to services. It allows external access to services based on rules.
+- **Manifest Example (ingress.yaml):**
+  ```yaml
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: myapp-ingress
+  spec:
+    rules:
+    - host: myapp.example.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: myapp-service
+              port:
+                number: 80
+  ```
+
+### 5. **ConfigMap:**
+- **Description:** ConfigMaps allow you to decouple configuration artifacts from the container image. They can be used to store configuration data in key-value pairs.
+- **Manifest Example (configmap.yaml):**
+  ```yaml
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: myapp-config
+  data:
+    app_config: |
+      key1: value1
+      key2: value2
+  ```
+
+### 6. **Secret:**
+- **Description:** Similar to ConfigMaps, Secrets are used to store sensitive information such as passwords, tokens, or keys.
+- **Manifest Example (secret.yaml):**
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: myapp-secret
+  type: Opaque
+  data:
+    username: <base64-encoded-username>
+    password: <base64-encoded-password>
+  ```
+
+### 7. **PersistentVolume (PV) and PersistentVolumeClaim (PVC):**
+- **Description:** PVs and PVCs are used for storage management. A PersistentVolume represents a piece of networked storage in the cluster, while a PersistentVolumeClaim is a request for storage by a user.
+- **Manifest Examples:**
+  - PersistentVolume (pv.yaml):
+    ```yaml
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: myapp-pv
+    spec:
+      capacity:
+        storage: 1Gi
+      accessModes:
+        - ReadWriteOnce
+      hostPath:
+        path: /data/myapp
+    ```
+  - PersistentVolumeClaim (pvc.yaml):
+    ```yaml
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: myapp-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+    ```
+
+### 8. **Namespace:**
+- **Description:** Namespaces are a way to divide cluster resources between multiple users, teams, or applications. They provide a scope for names and are intended for use in environments with many users and applications.
+- **Manifest Example (namespace.yaml):**
+  ```yaml
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: myapp-namespace
+  ```
+
+### 9. **Job:**
+- **Description:** Represents a task that runs to completion. It is suitable for short-lived, batch-style tasks.
+- **Manifest Example (job.yaml):**
+  ```yaml
+  apiVersion: batch/v1
+  kind: Job
+  metadata:
+    name: myapp-job
+  spec:
+    template:
+      metadata:
+        name: myapp-job-pod
+      spec:
+        containers:
+        - name: myapp-container
+          image: myapp-job-image:latest
+    completions: 1
+  ```
+
+### 10. **DaemonSet:**
+- **Description:** Ensures that a copy of a Pod runs on all or some nodes in the cluster. Useful for deploying monitoring agents, log collectors, etc., on every node.
+- **Manifest Example (daemonset.yaml):**
+  ```yaml
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: myapp-daemonset
+  spec:
+    selector:
+      matchLabels:
+        app: myapp
+    template:
+      metadata:
+        labels:
+          app: myapp
+      spec:
+        containers:
+        - name: myapp-container
+          image: myapp-image:latest
+  ```
+
+These examples cover a range of Kubernetes objects that you might encounter when managing and deploying applications in a Kubernetes cluster. The choice of which objects to use depends on your application's requirements and the architecture of your deployment.
+
+
+
+
+
+
+
+-------------------------------
+
 34. Command to list pods and deployments
+
+ans :
+
+To list pods and deployments in a Kubernetes cluster, you can use the following commands with the `kubectl` command-line tool:
+
+### List Pods:
+
+```bash
+kubectl get pods
+```
+
+This command will display a list of all pods in the current namespace.
+
+To list pods in a specific namespace, use:
+
+```bash
+kubectl get pods -n <namespace>
+```
+
+### List Deployments:
+
+```bash
+kubectl get deployments
+```
+
+This command will display a list of all deployments in the current namespace.
+
+To list deployments in a specific namespace, use:
+
+```bash
+kubectl get deployments -n <namespace>
+```
+
+These commands provide a quick overview of the current status of pods and deployments in your Kubernetes cluster. If you need more detailed information, you can use additional options such as `-o wide` or check the specific fields using `-o custom-columns`.
