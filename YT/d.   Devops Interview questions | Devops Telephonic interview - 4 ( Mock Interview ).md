@@ -1677,7 +1677,7 @@ In summary, Docker Compose is ideal for local development and testing, while Doc
 28. Components in kubernetes architecture?
 Ans :
 
-```
+
 Master node :
  - Api server :
 	 -  exposes k8 api , used by both user and components
@@ -1719,7 +1719,6 @@ Volume : directory accessible by all containers in a pod , it is used for persis
 Namespace : way to divide cluster resources between mutiple use/teams , resource with same name can exist in diff namespace.
 
 Label : key value pair attached to object such as pods , label used to recognize and select objects. 
-----
 
 
 
@@ -1727,7 +1726,8 @@ Label : key value pair attached to object such as pods , label used to recognize
 
 
 
-```
+
+
 
 
 In Kubernetes architecture, there are several key components that work together to manage containerized applications. Here's a high-level overview of the main components:
@@ -1784,6 +1784,40 @@ characteristics :
 *  Update strategy :  -   StatefulSets provide update strategies that allow you to control how updates to the StatefulSet are performed. This is important for minimizing disruption to stateful applications. The two common update strategies are RollingUpdate and OnDelete.
 
 Use cases : Databases . message queues / Distributed systems
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: myapp-statefulset
+spec:
+  replicas: 3
+  serviceName: "myapp"
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp-container
+        image: myapp-image:latest
+        ports:
+        - containerPort: 80
+  volumeClaimTemplates:
+  - metadata:
+      name: myapp-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi
+
+
+```
+
 
 ----------------------------
 
@@ -1862,6 +1896,7 @@ When choosing a log management tool for Kubernetes, consider factors such as sca
 ----------------------
 --------------------
 -------------------------
+
 AWS
 -----
 32. Services used AWS and tasks performed in AWS
