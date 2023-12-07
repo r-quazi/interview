@@ -241,14 +241,339 @@ For Devops : https://www.bmc.com/blogs/devops-branching-strategies/
 22. Is it possible to name dockerfile as myproject.txt ?
 23. how to remove all stopped containers and images ?
 
+
+## k8 :
+
+--------------------------
+--------------------------
 24. Are you administring k8 or deploying ?
+
+ans :
+"I am primarily focused on deploying applications on Kubernetes. In this role, I work on creating and optimizing CI/CD pipelines for Kubernetes, automating deployments, and managing infrastructure as code. My responsibilities include ensuring proper containerization of applications, managing Docker images, and overseeing the deployment and scaling of applications within the Kubernetes environment."
+
+
+--------------------------
+
 25. Can we deploy pods on master node ?
+
+ans :
+
+Yes, it is possible to schedule and deploy pods on the master node in Kubernetes. However, it is generally not recommended to deploy application workloads directly on the master node for several reasons:
+
+1. **Security:** The master node is a critical component of the cluster responsible for managing and controlling the entire cluster. Deploying user workloads on the master node might expose them to potential security risks.
+
+2. **Resource Contention:** The master node is responsible for various control plane components, and running user workloads on the same node may lead to resource contention, affecting the performance and stability of the control plane.
+
+3. **High Availability:** Deploying user workloads on the master node may impact the high availability of the control plane components. It's common practice to have multiple master nodes for redundancy and fault tolerance.
+
+That being said, if you still want to deploy a pod on the master node, you can do so by removing taints from the master node or by explicitly tolerating the master node's taints. A taint is a key-value pair applied to a node that prevents the scheduling of pods unless they have a matching toleration.
+
+Here's an example manifest file that deploys a simple Nginx pod on the master node:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+  tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+```
+
+In this example:
+
+- The pod is named "nginx-pod" and contains a single container running the Nginx image.
+- The `tolerations` section specifies that the pod tolerates the taint with the key `node-role.kubernetes.io/master` and the effect `NoSchedule`. This allows the pod to be scheduled on a node with this taint, which includes the master node.
+
+Keep in mind the considerations mentioned earlier, and use caution when deploying workloads directly on master nodes in a production environment.
+
+
+
+
+
+
+--------------------------
+
 26. Have you come across configmap and why we use it ?
+
+ans :
+
+Yes, ConfigMap is a Kubernetes resource used to store configuration data in key-value pairs, allowing you to decouple configuration from application code. ConfigMaps provide a way to manage configuration data and consume it in pods or other resources.
+
+### Why use ConfigMap:
+
+1. **Separation of Concerns:** ConfigMaps separate configuration data from application code, promoting a cleaner separation of concerns. This makes it easier to manage and update configuration independently of the application.
+
+2. **Centralized Configuration:** ConfigMaps provide a centralized location to store and manage configuration data for multiple pods or containers. This is especially useful in scenarios where multiple instances of an application share the same configuration.
+
+3. **Dynamic Configuration Updates:** ConfigMaps allow you to update configuration data dynamically without redeploying the entire application. This is helpful for scenarios where configuration changes frequently or needs to be updated without disrupting the application.
+
+4. **Consistent Configuration Across Environments:** ConfigMaps help ensure consistent configuration across different environments, such as development, testing, and production, by providing a single source of truth for configuration data.
+
+### Manifest File Example:
+
+Here's an example of a ConfigMap manifest file:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-config
+data:
+  APP_ENV: "production"
+  DB_HOST: "db.example.com"
+  DB_PORT: "5432"
+  API_KEY: "abc123"
+```
+
+In this example:
+
+- `metadata.name`: Specifies the name of the ConfigMap (in this case, "myapp-config").
+- `data`: Contains the key-value pairs representing the configuration data.
+
+Once you create a ConfigMap, you can reference it in your pods, deployments, or other resources. Here's an example of a pod manifest file using the ConfigMap:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+  - name: myapp-container
+    image: myapp-image:latest
+    env:
+    - name: APP_ENV
+      valueFrom:
+        configMapKeyRef:
+          name: myapp-config
+          key: APP_ENV
+    - name: DB_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: myapp-config
+          key: DB_HOST
+    - name: DB_PORT
+      valueFrom:
+        configMapKeyRef:
+          name: myapp-config
+          key: DB_PORT
+    - name: API_KEY
+      valueFrom:
+        configMapKeyRef:
+          name: myapp-config
+          key: API_KEY
+```
+
+In this pod manifest:
+
+- `env`: Defines environment variables sourced from the ConfigMap using `configMapKeyRef`.
+- Each key in the ConfigMap corresponds to an environment variable in the pod.
+
+This way, you can manage your application's configuration centrally using ConfigMaps and ensure that your pods have consistent and up-to-date configuration data.
+
+
+
+--------------------------
+
 27. What is default deployment strategy in k8 ?
+
+ans :
+
+The default deployment strategy in Kubernetes is known as "RollingUpdate." In a RollingUpdate strategy, the new version of the application is gradually rolled out, replacing instances of the old version one at a time, ensuring that the deployment remains available and stable throughout the process.
+
+Here's an example of a Deployment manifest file with the default RollingUpdate strategy:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp-container
+        image: myapp-image:v2  # Update this to your new image version
+        ports:
+        - containerPort: 80
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+```
+
+Explanation of key elements in the manifest:
+
+- `spec.replicas`: Specifies the desired number of replicas (pods) for your application. In this example, it's set to 3 replicas.
+
+- `spec.selector.matchLabels`: Defines the selector that determines which Pods belong to the Deployment.
+
+- `spec.template`: Specifies the Pod template used to create new Pods when scaling or updating the Deployment.
+
+- `spec.strategy`: Defines the deployment strategy. In this case, it's set to "RollingUpdate."
+
+- `spec.strategy.rollingUpdate.maxSurge`: Specifies the maximum number of additional pods that can be created during an update. In this example, one additional pod is allowed beyond the desired replica count.
+
+- `spec.strategy.rollingUpdate.maxUnavailable`: Specifies the maximum number of pods that can be unavailable during the update. In this example, one pod can be unavailable at a time.
+
+- `minReadySeconds`: Specifies the minimum number of seconds for which a newly created pod should be ready without any errors before considering it available. In this example, it's set to 5 seconds.
+
+This RollingUpdate strategy ensures that the deployment proceeds gradually by updating one pod at a time while maintaining a specified number of replicas available and avoiding downtime. Adjust the `maxSurge` and `maxUnavailable` values based on your application's requirements.
+
+
+
+
+
+--------------------------
+
 28. Have you used helm and why we need helm ?
+
+ans :
+
+Yes, Helm is a widely used package manager for Kubernetes applications. It simplifies the process of deploying and managing applications on Kubernetes by providing a standardized way to define, install, and upgrade applications.
+
+### Why Helm is Used:
+
+1. **Package Management:**
+   - Helm allows you to package your entire application, including Kubernetes manifests, configurations, and dependencies, into a single unit called a "chart." This makes it easy to distribute and share applications.
+
+2. **Templating:**
+   - Helm uses Go template language to enable parameterization and dynamic configuration of Kubernetes manifests. This makes it simple to customize deployments for different environments without duplicating YAML files.
+
+3. **Reusability:**
+   - Helm charts can be shared and reused across projects, teams, and organizations. The Helm Hub serves as a centralized repository of charts that can be easily accessed and deployed.
+
+4. **Versioning and Rollbacks:**
+   - Helm enables versioning of charts, allowing you to roll back to a previous version if an update causes issues. This is crucial for maintaining application stability and reliability.
+
+5. **Declarative Configuration:**
+   - Helm charts provide a declarative way to define the desired state of your application. This aligns with the Kubernetes philosophy of declarative infrastructure and allows for easy management of complex applications.
+
+6. **Ecosystem and Community:**
+   - Helm has a vibrant community and a rich ecosystem of charts for various applications and services. This community-driven approach accelerates the adoption of best practices and provides a wealth of pre-built charts.
+
+### Helm Usage Example:
+
+Here's a brief example of using Helm to install a chart:
+
+1. **Install Helm:**
+   - Before using Helm, you need to install the Helm CLI on your local machine. Instructions can be found on the Helm official website: [Get Helm](https://helm.sh/docs/intro/install/).
+
+2. **Initialize Helm:**
+   ```bash
+   helm init
+   ```
+
+3. **Create a Helm Chart:**
+   - You can create a new Helm chart or use an existing one. A Helm chart typically includes a `values.yaml` file for configuration and a set of Kubernetes manifest files.
+
+4. **Install the Chart:**
+   ```bash
+   helm install myapp ./myapp-chart
+   ```
+
+   Replace `myapp` with the desired release name and `./myapp-chart` with the path to your Helm chart.
+
+Helm simplifies the deployment and management of applications on Kubernetes, making it an essential tool for anyone working with containerized applications in a Kubernetes environment.
+
+
+
+
+
+
+
+
+--------------------------
+
 29. how can we find the unised values in helm ?
+
+ans :
+To find unused values in a Helm chart, you can use Helm's `lint` command combined with some additional tools. Helm doesn't provide a direct command to identify unused values, but you can achieve this by following these steps:
+
+1. **Lint the Helm Chart:**
+   Use the `helm lint` command to identify any issues, including unused or undefined values:
+
+   ```bash
+   helm lint <chart-name>
+   ```
+
+   Replace `<chart-name>` with the actual name of your Helm chart.
+
+2. **Check `values.yaml`:**
+   Examine the `values.yaml` file in your Helm chart. Unused values may be present if there are keys defined in `values.yaml` that are not referenced anywhere in your chart's templates.
+
+3. **Manual Inspection:**
+   Manually inspect your Helm chart's templates (files in the `templates` directory) for references to values. Check if there are values defined in `values.yaml` that are not used in these templates.
+
+4. **Use `grep` or Other Tools:**
+   You can use command-line tools like `grep` to search for specific values in your chart files. For example:
+
+   ```bash
+   grep -r "some-value" .
+   ```
+
+   Replace `"some-value"` with the value you want to search for.
+
+   Additionally, tools like `ack` or IDEs with advanced search functionalities can help you search for specific values or keys across multiple files.
+
+5. **Code Review and Documentation:**
+   Review the Helm chart code and documentation. Sometimes, unused values may be commented out or left in the code for future use. A code review and documentation review can help identify such cases.
+
+6. **Consider Using `kubeval`:**
+   `kubeval` is a tool that can validate your Kubernetes manifests against the Kubernetes API schemas. While it won't directly identify unused Helm values, it can help ensure that your manifests are valid. Install `kubeval` using:
+
+   ```bash
+   brew install kubeval
+   ```
+
+   Run it on your rendered templates:
+
+   ```bash
+   kubeval --strict --ignore-missing-schemas ./rendered-templates
+   ```
+
+   Replace `./rendered-templates` with the directory containing your rendered templates.
+
+Remember that Helm values can be dynamically used in templates, so the absence of a direct reference does not necessarily mean a value is unused. Manual inspection, linting, and a good understanding of your Helm chart are crucial for accurately identifying and handling unused values.
+
+
+
+
+--------------------------
+
+--------------------------
+--------------------------
+
 30. have you come across exit status, why we use that exit status ?
+
+
+--------------------------
+
 31. command to find the os of system ?
+
+
+
+
+
+
+
+
+
+
 
 32. in ansible if we have to run few command on centos and linus how to do that >
 33. ansible galaxy ? why we use ?
