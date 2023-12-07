@@ -1239,8 +1239,8 @@ It's important to note that this method copies the file into the container, but 
 
 
 ---------------------
--------------
-=======
+-------------------
+====================
 
 ### Kubernetes :
 
@@ -1266,6 +1266,31 @@ Init containers and sidecar containers are two common patterns used in Kubernete
    - A database application that needs to wait for the database server to become available before starting.
    - A microservices application that needs to run a health check on all of its dependencies before starting.
 
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: init-container
+      image: busybox
+      command: ['sh', '-c', 'wget -O /config/config.yaml http://config-server/config.yaml']
+      volumeMounts:
+        - name: config-volume
+          mountPath: /config
+    - name: main-container
+      image: myapp-image:latest
+      volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+  volumes:
+    - name: config-volume
+      emptyDir: {}
+
+
+```
+
 3. **Sidecar Containers**:
    Sidecar containers are additional containers that run alongside the main application container in the same pod. They are used to extend or enhance the functionality of the main container without modifying the application's code.They are typically used for tasks such as:
 
@@ -1281,11 +1306,30 @@ Init containers and sidecar containers are two common patterns used in Kubernete
     - Suppose you have a microservices architecture where each service emits logs, and you want to centralize log collection and forwarding to a logging service like Elasticsearch or Fluentd. You can use a sidecar container for this. The main application container generates logs, while the sidecar container collects these logs and sends them to the logging service. This keeps your application container focused on its primary task, while the sidecar container handles the logging responsibilities.
    
 
-    - A web application that needs to use a caching service to improve performance.
-    - A database application that needs to use a load balancer to distribute traffic across multiple replicas.
-    - A microservices application that needs to use a service discovery service to locate its dependencies.
-    - A web application that needs to use a security sidecar to implement authentication and authorization.
+  - A web application that needs to use a caching service to improve performance.
+  - A database application that needs to use a load balancer to distribute traffic across multiple replicas.
+  - A microservices application that needs to use a service discovery service to locate its dependencies.
+  - A web application that needs to use a security sidecar to implement authentication and authorization.
 
+
+```yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: main-container
+      image: myapp-image:latest
+      ports:
+        - containerPort: 8080
+      # Your main application container configuration goes here
+    - name: log-forwarder
+      image: log-forwarder-image:latest
+      # Configuration for log forwarding goes here
+
+```
 In summary, init containers are primarily used for setup and initialization tasks that need to be completed before the main application container starts, while sidecar containers are used to enhance the functionality of the main container by running alongside it and performing tasks like logging, monitoring, or data synchronization. These patterns help keep pods clean, modular, and easier to manage in a container orchestration environment like Kubernetes.
 
 
@@ -1317,7 +1361,34 @@ The Rolling Update strategy offers several benefits:
 - **Flexibility**: You can configure the speed of the update, making it as gradual or fast as needed.
 
 For those new to Kubernetes, the Rolling Update deployment strategy is recommended, as it is the default strategy and provides a straightforward and controlled approach to application updates.
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp-container
+        image: myapp-image:v2  # Update this to your new image version
+        ports:
+        - containerPort: 80
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
 
+```
 -----------------
 
 Q27 :  command to check the container logs in pod?
@@ -1360,6 +1431,8 @@ You can also use the --all-containers=true flag to print the logs for all contai
 
 ```kubectl logs <pod-name> --all-containers=true```
 
+events ` kubectl get events --field-selector involvedObject.name=<pod-namw>`
+
 --------------
 
 
@@ -1371,21 +1444,122 @@ Kubernetes offers several types of services to expose applications and manage ne
 
 1. **ClusterIP**:
    - **ClusterIP** services provide internal network communication within the cluster. They expose the service on a cluster-internal IP address, allowing other pods within the cluster to access it. These services are not accessible from outside the cluster.
+```yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-clusterip-service
+spec:
+  selector:
+    app: myapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+
+```
 
 2. **NodePort**:
    - **NodePort** services expose the service on a static port on each node's IP address. They make the service accessible from outside the cluster. When traffic is directed to a node's IP and the defined port, the service forwards it to the appropriate pod.
+   
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-nodeport-service
+spec:
+  selector:
+    app: myapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
+
+
+```
+
 
 3. **LoadBalancer**:
    - **LoadBalancer** services are used to expose services to the outside world through cloud provider-specific load balancers. They distribute external traffic to the pods behind the service, making it suitable for scenarios where you need to load balance and provide high availability for external access.
+   
+```yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-loadbalancer-service
+spec:
+  selector:
+    app: myapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+
+```
+
+
 
 4. **ExternalName**:
    - **ExternalName** services provide a way to map a service to a DNS name. These services do not have selectors or endpoints but instead redirect DNS queries to a specified external DNS name.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-externalname-service
+spec:
+  externalName: myapp.example.com
+
+
+```
 
 5. **Headless**:
    - A **Headless** service, when created with the `ClusterIP: None` setting, does not allocate a cluster-internal IP or provide load balancing. It is used for scenarios where you need direct DNS-based pod-to-pod communication within a service without a single entry point.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-headless-service
+spec:
+  clusterIP: None
+  selector:
+    app: myapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+
+```
 
 6. **Ingress**:
    - An **Ingress** resource is not exactly a service, but it manages external access to the services in your cluster. Ingress controllers can be used to configure rules for routing external traffic to specific services based on HTTP or HTTPS routes.
+
+```yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 80
+
+
+```
 
 These services are essential for managing networking and making your applications accessible within a Kubernetes cluster and, when needed, from external sources. The choice of service type depends on your application's requirements and the desired access patterns.
 
@@ -1393,6 +1567,7 @@ These services are essential for managing networking and making your application
 
 
 Q29 : What is the link between pod and service?
+
 -ans :
 
 Pods and services in Kubernetes are closely related and work together to ensure network communication within the cluster. Here's the link between pods and services:
@@ -1424,15 +1599,15 @@ A pod is a group of one or more containers, with shared storage and network reso
 
 Services are linked to pods in two ways:
 
-    Label selector: A service uses a label selector to identify the pods that it should proxy traffic to. The label selector can be based on any label that is applied to the pods.
-    Endpoints: A service is backed by a set of endpoints, which are the actual pods that the service will proxy traffic to. The endpoints are discovered by the Kubernetes service proxy, which is responsible for load balancing traffic to the pods.
+  1. Label selector: A service uses a label selector to identify the pods that it should proxy traffic to. The label selector can be based on any label that is applied to the pods.
+  2. Endpoints: A service is backed by a set of endpoints, which are the actual pods that the service will proxy traffic to. The endpoints are discovered by the Kubernetes service proxy, which is responsible for load balancing traffic to the pods.
 
 When a client sends traffic to a service, the Kubernetes service proxy intercepts the traffic and forwards it to one of the pods that is backing the service. The service proxy uses a load balancing algorithm to distribute traffic evenly across the pods.
 
 The link between pods and services is essential for running reliable and scalable applications on Kubernetes. Services allow you to expose your application to the outside world without having to worry about managing the individual pods that are backing the service. Services also provide load balancing and failover capabilities, which ensure that your application is always available, even if some of the pods that are backing it fail.
 
 Here is an example of how a service is linked to pods:
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -1449,14 +1624,14 @@ This service will proxy traffic to all pods that have the label app: my-app. The
 
 To deploy this service, you would run the following command:
 
-kubectl apply -f service.yaml
+`kubectl apply -f service.yaml`
 
 Once the service is deployed, you can access it from outside the cluster using the service's IP address. The Kubernetes service proxy will load balance traffic to the pods that are backing the service.
 Benefits of linking pods and services
 
 Linking pods and services has a number of benefits, including:
 
-    Abstraction: Services provide an abstraction layer that hides the complexity of managing individual pods. This makes it easier to develop and deploy applications on Kubernetes.
-    Load balancing: Services provide load balancing capabilities, which distribute traffic evenly across the pods that are backing the service. This improves the performance and reliability of your application.
-    Failover: Services also provide failover capabilities. If a pod fails, the service will continue to proxy traffic to the remaining pods. This ensures that your application is always available, even if some of the pods that are backing it fail.
-    Scalability: Services make it easy to scale your application up or down. You can simply add or remove pods from the service, and the service will automatically update its endpoint list. This makes it easy to scale your application to meet the changing demands of your users.
+  1. Abstraction: Services provide an abstraction layer that hides the complexity of managing individual pods. This makes it easier to develop and deploy applications on Kubernetes.
+  2. Load balancing: Services provide load balancing capabilities, which distribute traffic evenly across the pods that are backing the service. This improves the performance and reliability of your application.
+  3. Failover: Services also provide failover capabilities. If a pod fails, the service will continue to proxy traffic to the remaining pods. This ensures that your application is always available, even if some of the pods that are backing it fail.
+  4. Scalability: Services make it easy to scale your application up or down. You can simply add or remove pods from the service, and the service will automatically update its endpoint list. This makes it easy to scale your application to meet the changing demands of your users.
