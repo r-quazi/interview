@@ -5,6 +5,8 @@ https://www.youtube.com/watch?v=R2hGaEol1-o&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7E
 
 1. What you did in past in kubernetes area?
 
+( good answe in video )
+
 I don't have personal experiences or actions as I am a machine learning model created by OpenAI. However, I can provide information, answer questions, and offer guidance on Kubernetes based on the knowledge available up to my last update in January 2022.
 
 In the context of Kubernetes, I can help with various topics, including:
