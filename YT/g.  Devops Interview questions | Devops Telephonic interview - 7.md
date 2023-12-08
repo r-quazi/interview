@@ -373,3 +373,243 @@ or in credential manager.
 
 
 ---------------------------------------
+
+
+## k8s :
+
+--------------------------------------------
+
+Q. what is k8s objects and ingress and what service have you used in k8s deployment ? 
+
+Ans : 
+In Kubernetes (often abbreviated as K8s), objects are the fundamental entities used to represent and manage the state of your application or system. These objects are defined in YAML files and submitted to the Kubernetes API server, which then takes care of deploying and managing the specified resources. Some common Kubernetes objects include:
+
+1. **Pods:** The smallest deployable units in Kubernetes, representing a single instance of a running process.
+
+2. **Services:** Abstractions that define a set of Pods and how they can be accessed. Services enable network access to a set of Pods, either within the cluster or from external sources.
+
+3. **ReplicaSets:** Controllers that ensure a specified number of replicas (identical copies) of Pods are running at all times.
+
+4. **Deployments:** Higher-level abstractions that manage ReplicaSets and provide declarative updates to applications.
+
+5. **ConfigMaps and Secrets:** Objects for storing configuration data and sensitive information, respectively, separately from the Pod's specification.
+
+6. **Ingress:** An API object that manages external access to services within a cluster, typically HTTP. Ingress allows you to define how external traffic should be directed to your services.
+
+Speaking specifically about Ingress:
+
+- **Ingress:** In Kubernetes, Ingress is an API object that provides HTTP and HTTPS routing to services based on rules. It acts as a layer of abstraction for external access to services and allows you to define how external traffic should be directed to your services. Ingress controllers are responsible for implementing the rules set in the Ingress resource.
+
+Regarding services used in Kubernetes deployments, it depends on the specific requirements of the application. Commonly used services include:
+
+- **ClusterIP Service:** Exposes the service on a cluster-internal IP. It's accessible only within the cluster.
+
+- **NodePort Service:** Exposes the service on each Node's IP at a static port. It allows external traffic to reach the service.
+
+- **LoadBalancer Service:** Exposes the service externally using a cloud provider's load balancer. It automatically assigns an external IP and routes traffic to the service.
+
+- **ExternalName Service:** Maps the service to the contents of the `externalName` field (e.g., a DNS name).
+
+- **Headless Service:** Acts as a service discovery mechanism without load balancing. Each Pod gets its own DNS entry.
+
+The choice of service type depends on factors such as the application architecture, traffic requirements, and the underlying infrastructure.
+
+
+-------------------------------------------------------
+
+Q. How do you deploya feature with zero downtime in k8s ?
+Ans:
+
+Deploying a feature with zero downtime in Kubernetes involves careful planning and execution. Here are some strategies and best practices to achieve zero-downtime deployments:
+
+1. **ReplicaSets and Deployments:**
+   - Use ReplicaSets or Deployments to manage your Pods. These controllers ensure that a specified number of replicas are running at all times.
+   - Deployments, in particular, allow you to perform rolling updates by gradually replacing old Pods with new ones.
+
+2. **Rolling Updates:**
+   - Leverage rolling updates provided by Deployments. This strategy replaces instances of the old application with the new one gradually, minimizing downtime.
+   - The default behavior for Deployments is a rolling update.
+
+3. **Readiness Probes:**
+   - Implement readiness probes in your Pods. Readiness probes define conditions under which a Pod is considered ready to serve traffic.
+   - During a deployment, Kubernetes checks the readiness status of each Pod. If a Pod is not ready, it is not included in the load balancing, ensuring traffic only goes to healthy Pods.
+
+4. **Liveness Probes:**
+   - Use liveness probes to determine if a Pod is still running. If a Pod fails its liveness probe, Kubernetes will restart it or stop routing traffic to it.
+   - This helps in identifying and recovering from situations where the application is running but not functioning correctly.
+
+5. **Rolling Restart:**
+   - Perform rolling restarts for your application when configuration changes are needed. This involves updating one or a few Pods at a time, ensuring that the application remains available.
+
+6. **Blue-Green Deployments:**
+   - Set up a blue-green deployment strategy where you have two sets of identical environments (blue and green).
+   - Deploy the new feature to the "green" environment while the "blue" environment is still serving traffic.
+   - Once the green environment is validated, switch traffic to it, making it the new live environment.
+
+7. **Canary Deployments:**
+   - Gradually roll out the new feature to a subset of users or traffic using canary deployments.
+   - Monitor the canary release for issues, and if everything is stable, gradually increase the traffic to the new version.
+
+8. **External Load Balancer Health Checks:**
+   - If you're using an external load balancer, configure health checks to ensure it only directs traffic to healthy Pods.
+
+9. **Persistent Storage Considerations:**
+   - If your application uses persistent storage, ensure that changes in the new version are backward-compatible with the data format of the previous version.
+
+10. **Monitoring and Rollback:**
+    - Implement monitoring and alerting to detect issues early. If problems are detected, be prepared to rollback the deployment to the previous version.
+
+By following these practices, you can significantly reduce or eliminate downtime during feature deployments in Kubernetes. Always test these strategies in a staging environment before applying them to a production environment.
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+Q. what you used before  introducing replica set ?
+Ans:
+
+Before the introduction of ReplicaSets in Kubernetes, the primary mechanism for managing sets of identical Pods was through a simpler controller called Replication Controllers. Replication Controllers served a similar purpose but lacked some of the advanced features and flexibility provided by ReplicaSets and Deployments, which are now more commonly used.
+
+Here's a brief overview of Replication Controllers and why ReplicaSets were introduced:
+
+1. **Replication Controllers:**
+   - Replication Controllers were the earlier controller in Kubernetes for managing and ensuring the desired number of replicas of Pods.
+   - They were responsible for maintaining a specified number of identical Pods running at all times.
+   - Replication Controllers had limitations, such as the inability to perform rolling updates with fine-grained control over the update process.
+
+2. **Introduction of ReplicaSets:**
+   - ReplicaSets were introduced to address some shortcomings of Replication Controllers and to provide more flexibility in managing Pod replicas.
+   - ReplicaSets have selector-based matching for identifying the Pods they manage, making them more expressive and powerful.
+   - They introduced the concept of rolling updates, allowing for controlled and automated updates of Pods.
+
+3. **Key Differences:**
+   - While both ReplicaSets and Replication Controllers can be used for basic replication, ReplicaSets offer more expressive selector options for identifying Pods.
+   - ReplicaSets also enable more sophisticated update strategies, such as rolling updates, which allow for gradual replacement of old Pods with new ones.
+   - Deployments, a higher-level abstraction built on top of ReplicaSets, provide additional features for declarative updates, rollbacks, and more.
+
+In summary, ReplicaSets replaced Replication Controllers as the preferred way to manage replicated Pods in Kubernetes due to their improved features and capabilities. Deployments, which use ReplicaSets under the hood, are commonly used for managing application lifecycle events, including rolling updates, scaling, and rollbacks, providing a more powerful and user-friendly experience.
+
+
+
+
+
+
+
+
+----------------------------------------------------
+
+Q. what is exact difference between replicaset and replica controllers ? 
+Ans:
+
+ReplicaSet and Replication Controller are both Kubernetes controllers designed to ensure a specified number of identical Pod replicas are running. However, there are some key differences between the two:
+
+1. **Selector Options:**
+   - ReplicaSet allows more expressive and powerful selector options for identifying the Pods it manages. It supports the full set of equality-based selectors as well as set-based selectors.
+   - Replication Controller only supports equality-based selectors.
+
+2. **Selector Matching:**
+   - ReplicaSet supports set-based matching, allowing you to use conditions like "in," "not in," "exists," and "does not exist" for selector matching.
+   - Replication Controller supports only equality-based matching for selectors.
+
+3. **Update Strategies:**
+   - ReplicaSet introduces more advanced update strategies, especially the ability to perform rolling updates. Rolling updates allow for controlled replacement of old Pods with new ones, ensuring a smooth transition during application updates.
+   - Replication Controller has a basic rolling update strategy, but it lacks some of the fine-grained control provided by ReplicaSets.
+
+4. **Pod Template Changes:**
+   - When using ReplicaSet, if you update the Pod template (e.g., changing the container image), it triggers a rolling update to ensure the desired state is achieved gradually.
+   - With Replication Controller, updating the Pod template directly may not trigger a controlled rolling update, potentially causing abrupt changes to the entire set of Pods.
+
+5. **API Version:**
+   - ReplicaSet is part of the "apps" API group in Kubernetes, and its API version is `apps/v1`.
+   - Replication Controller is part of the "core" API group, and its API version is `v1`.
+
+In practical terms, ReplicaSets are considered more powerful and flexible compared to Replication Controllers. They provide enhanced selector options, support for set-based matching, and improved update strategies. Deployments, a higher-level abstraction built on ReplicaSets, are commonly used for managing application lifecycle events due to their additional features, including declarative updates, rollbacks, and more sophisticated deployment strategies.
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+Q. As soon as you deploy a new deployemnt how replicaset and rolling update works ? 
+Ans:
+
+When you deploy a new Deployment in Kubernetes, the following process occurs, involving ReplicaSets and rolling updates:
+
+1. **Desired State Declaration:**
+   - You define the desired state of your application in a Deployment manifest, specifying details such as the container image, number of replicas, and other configuration parameters.
+   - The Deployment controller takes this desired state and attempts to make it a reality in the cluster.
+
+2. **ReplicaSet Creation:**
+   - The Deployment controller creates a ReplicaSet to manage the specified number of replicas (Pods) based on the desired state.
+   - The ReplicaSet is responsible for ensuring that the actual state of the cluster matches the desired state.
+
+3. **Pod Creation:**
+   - The ReplicaSet creates the required number of Pods based on the template specified in the Deployment manifest.
+   - These Pods are initially created to match the desired state.
+
+4. **Rolling Update Initialization:**
+   - If the Deployment manifest is updated (e.g., a new container image is specified), the Deployment controller initiates a rolling update.
+
+5. **New ReplicaSet Creation:**
+   - A new ReplicaSet is created with the updated Pod template. This new ReplicaSet represents the desired state after the update.
+
+6. **Scaling Up the New ReplicaSet:**
+   - The Deployment controller starts creating new Pods controlled by the new ReplicaSet. The number of new Pods gradually increases while the number of old Pods decreases.
+
+7. **Rolling Replacement:**
+   - The rolling update mechanism ensures that the old and new Pods coexist during the process, allowing for a smooth transition without downtime.
+   - The Deployment controller monitors the health of the Pods and ensures that the desired number of replicas is maintained throughout the update.
+
+8. **Scaling Down the Old ReplicaSet:**
+   - As the new Pods become ready and are confirmed to be healthy, the Deployment controller scales down the old ReplicaSet by terminating Pods controlled by it.
+
+9. **Completion of Update:**
+   - The rolling update continues until all old Pods are replaced by new Pods, and the new ReplicaSet fully represents the desired state.
+   - The update is considered complete when the Deployment controller determines that the actual state matches the desired state.
+
+10. **Rollback (Optional):**
+    - If any issues are detected during the rolling update, Kubernetes allows for automatic or manual rollback to the previous state using the revision history kept by the Deployment controller.
+
+This process ensures that the application is updated with minimal downtime and without disrupting the availability of the service. The rolling update strategy is a key feature of Deployments in Kubernetes, allowing for seamless updates and rollbacks of applications.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+## shell scripting :
+Q. 
