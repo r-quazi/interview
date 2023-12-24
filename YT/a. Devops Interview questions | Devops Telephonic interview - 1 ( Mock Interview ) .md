@@ -1976,6 +1976,9 @@ I have used both Docker Swarm and Docker Compose to deploy and manage applicatio
 
 Q33 : Can we have multiple conatiners in a pod?
 - ans :
+- 
+architect link : https://www.linkedin.com/pulse/multi-container-init-container-pod-kubernetes-prachika-kanodia-
+
 Yes, in Kubernetes  we can run multiple containers within a single pod. A pod is the smallest deployable unit in Kubernetes, and it can contain one or more containers that share the same network namespace, storage volumes, and some other resources. it is commonly used for various purposes, such as co-locating containers that work together as part of a single application or including sidecar containers for tasks like logging, monitoring, or data synchronization.
 
 The primary reason that Pods can have multiple containers is to support helper applications that assist a primary application. however it will be a tightly coupled architecture and we are handling it as a single unit which is not a good practice.
