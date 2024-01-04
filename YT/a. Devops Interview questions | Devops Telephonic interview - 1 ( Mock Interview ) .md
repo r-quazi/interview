@@ -258,6 +258,24 @@ there are other ways as well like cloning the repo with all branches and checkou
 Q7 : When i issue mvn install what all things happen in background ?
 - ans :
 
+
+- build automation tool
+- used for java projects
+- mvn install several things happen in background.
+* parse pom.xml (child n parent) and check format i.e linting
+  -- metadata
+  -- dependencies
+  -- plugins
+  -- build instructions
+
+* Dependency resolution .m2/repository from mavencentral / remote repo
+* compile source code src/main/java & src/test/java into bytecode
+* running tests
+* packaging jar/war/ear is per pom
+* reporting to target directory.
+* plugin execution and notify /  generating documentation
+
+
 Maven is a build automation tool used primarily for the java projects . Whenever we issue mvn install command several things happen in the background , first it frdames a dependency tree on the pom.xml file and on  all the subprojects under super pom or the root pom however  it depdends on where we are running mvn install command generally we run where the super pom is located. then it sownloads , compiles all the needed components id directory .m2
 
 
@@ -323,6 +341,24 @@ deploy   :   Copies the final MVN package to the remote repository.
 Q8 : Do you know what is .m2 folder ?
 - ans :
 
+
+
+- .m2 is created by maven
+- build automation tool
+- used for java projects
+- mvn install several things happen in background.
+* parse pom.xml (child n parent) and check format i.e linting
+  -- metadata
+  -- dependencies
+  -- plugins
+  -- build instructions
+
+* next it will create .m2 and Dependency resolution .m2/repository from mavencentral / remote repo
+* .m2 contains settings.xml to configure maven settings , contains custom repo / proxy / other conf.
+* dependencies are cached locally to avoid repeatedly downloading the same artifacts, which can save time and bandwidth.
+*  contains maven wrapper configuration , mvn version added in project , file maven-wrapper.properties
+
+
  The `.m2` folder is a directory that is `C:\Users\<username>` on Windows or `/Users/<username>` on macOS and Linux). This folder is created and used by Apache Maven, a popular build automation and project management tool  used for Java projects.
 
 Here's what the `.m2` folder contains:
@@ -366,7 +402,20 @@ In term of efficiency, it is better to share the same localRepository across you
 Q9 : what are the settings you need to do in pom.xml or any other settings you need to do before running mvn in deploy ?
 - ans :
 
+
+
+
+* ensure pom.xml is correctly set
+* add <distributionManagement> in pom.xml specofoes where project will be deployed
+* auth creds
+* plugins configuration
+* dependencies and versions
+* snapshot and its path and creds
+* gpg keys if needed
+
+
 Before running the `mvn deploy` command to deploy your Maven project, there are several settings and configurations you need to ensure are correctly set up in your project's `pom.xml` and Maven settings. Deploying a project typically involves publishing artifacts (e.g., JAR files) to a remote repository (e.g., a company's internal repository or a public repository like Maven Central). Here are the key settings and configurations you should check:
+
 
 **1. `<distributionManagement>` in pom.xml**: In your project's `pom.xml`, you should have a `<distributionManagement>` section that specifies the location where your project should be deployed. This includes the URL of the remote repository where the artifacts will be published and the repository ID used to reference it. For example:
 
@@ -457,6 +506,14 @@ This will deploy your artifacts to the repository that you specified in your pom
 
 Q10 : have you build any maven projects in local ? if you to maven build first time it takes less time to build and next time it will takes less time to build, why it happens ?
 - ans :
+
+
+
+* download dep. takes time
+* cached dependies takes less time
+* incremental builds
+* parallel builds
+
 
 1. **Caching Dependencies**: During the first build of a Maven project, the build process resolves and downloads project dependencies (such as libraries and plugins) from remote repositories like Maven Central. These dependencies are typically cached in your local Maven repository (`~/.m2/repository`). When you build the project again, Maven checks the local repository first and uses the cached dependencies if they haven't changed. This significantly reduces the time required for dependency resolution and download.
 
@@ -574,7 +631,7 @@ Q12 : how to copy files from local windows machine to cloud based linux machine 
 
 4. **Drag and drop the files** from your local machine to the remote machine using the SFTP client's interface. The files will be transferred securely over SSH.
 
-or we can do using ansible , or uploading a file to stirage solution and downloading in vm via storage solution we have.
+or we can do using ansible , or uploading a file to storage solution/efs/nfs/s3/ drag n drop and downloading in vm via storage solution we have.
 
 --------
 ---------
@@ -1172,6 +1229,14 @@ Link : https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_strategi
 
 Q18 :  How to save only last 5 builds of jenkins job? 
 - ans :
+
+
+* UI : build discarder --> log rotation --> log rotation strategy --> days to keep artifact
+* CLI : `jenkins job <job-name> config` update the build discarder
+* Pipeline :     buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+* make sure we are keepting the successfully build artifacts , as per company policy
+
+
 In Jenkins, you can configure build retention policies to keep only the last 5 builds of a job and automatically discard older builds. This helps to manage disk space and maintain a clean build history. To achieve this, you can use the "Log Rotation" feature in Jenkins. Here's how you can do it:
 
 1. **Open the Jenkins Job Configuration:**
@@ -1254,6 +1319,15 @@ Additional Considerations
 
 Q19 :  Have you worked on Jenknsfile?
 - ans :
+
+* declarative scripted
+* can be tracked via git
+* stages / steps - building , testing , packaging , deploying
+* parallel execution and nodes . docker / master slave
+* plugins integration eg noify
+* error handling and  iaac
+
+
 Yes, I'm familiar with Jenkinsfiles. A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline. Jenkins Pipelines are a powerful way to define and automate your CI/CD (Continuous Integration/Continuous Deployment) processes. With Jenkinsfiles, you can describe your entire build and deployment process as code, which allows for versioning, code review, and repeatability.
 
 Here are some key points about Jenkinsfiles:
