@@ -258,7 +258,7 @@ there are other ways as well like cloning the repo with all branches and checkou
 Q7 : When i issue mvn install what all things happen in background ?
 - ans :
 
-
+```
 - build automation tool
 - used for java projects
 - mvn install several things happen in background.
@@ -274,7 +274,7 @@ Q7 : When i issue mvn install what all things happen in background ?
 * packaging jar/war/ear is per pom
 * reporting to target directory.
 * plugin execution and notify /  generating documentation
-
+```
 
 Maven is a build automation tool used primarily for the java projects . Whenever we issue mvn install command several things happen in the background , first it frdames a dependency tree on the pom.xml file and on  all the subprojects under super pom or the root pom however  it depdends on where we are running mvn install command generally we run where the super pom is located. then it sownloads , compiles all the needed components id directory .m2
 
@@ -342,7 +342,7 @@ Q8 : Do you know what is .m2 folder ?
 - ans :
 
 
-
+```
 - .m2 is created by maven
 - build automation tool
 - used for java projects
@@ -357,7 +357,7 @@ Q8 : Do you know what is .m2 folder ?
 * .m2 contains settings.xml to configure maven settings , contains custom repo / proxy / other conf.
 * dependencies are cached locally to avoid repeatedly downloading the same artifacts, which can save time and bandwidth.
 *  contains maven wrapper configuration , mvn version added in project , file maven-wrapper.properties
-
+```
 
  The `.m2` folder is a directory that is `C:\Users\<username>` on Windows or `/Users/<username>` on macOS and Linux). This folder is created and used by Apache Maven, a popular build automation and project management tool  used for Java projects.
 
@@ -404,7 +404,7 @@ Q9 : what are the settings you need to do in pom.xml or any other settings you n
 
 
 
-
+```
 * ensure pom.xml is correctly set
 * add <distributionManagement> in pom.xml specofoes where project will be deployed
 * auth creds
@@ -412,7 +412,7 @@ Q9 : what are the settings you need to do in pom.xml or any other settings you n
 * dependencies and versions
 * snapshot and its path and creds
 * gpg keys if needed
-
+```
 
 Before running the `mvn deploy` command to deploy your Maven project, there are several settings and configurations you need to ensure are correctly set up in your project's `pom.xml` and Maven settings. Deploying a project typically involves publishing artifacts (e.g., JAR files) to a remote repository (e.g., a company's internal repository or a public repository like Maven Central). Here are the key settings and configurations you should check:
 
@@ -508,12 +508,12 @@ Q10 : have you build any maven projects in local ? if you to maven build first t
 - ans :
 
 
-
+```
 * download dep. takes time
 * cached dependies takes less time
 * incremental builds
 * parallel builds
-
+```
 
 1. **Caching Dependencies**: During the first build of a Maven project, the build process resolves and downloads project dependencies (such as libraries and plugins) from remote repositories like Maven Central. These dependencies are typically cached in your local Maven repository (`~/.m2/repository`). When you build the project again, Maven checks the local repository first and uses the cached dependencies if they haven't changed. This significantly reduces the time required for dependency resolution and download.
 
@@ -738,6 +738,20 @@ This script will identify and print the positions of "c" among the parameters, a
 Q11 : Have you worked on ansible adhoc command ?
 - ans :
 
+```
+ansible webservers -m reboot  -->    Rebooting servers
+ansible all -m copy -a "src=/etc/hosts dest=/tmp/hosts" -->    Copying files to multiple servers
+ansible all -m package -a "name=nginx state=present"  -->    Managing packages on servers
+ansible all -m user -a "name=myuser state=present"   -->    Creating and deleting users and groups on servers
+ansible webservers -m service -a "name=httpd state=started"  -->    Checking the status of services on servers
+ansible all -m file -a 'path=/path/to/directory state=directory'  --> Manages files and directories on remote hosts.
+ansible all -m ping
+ansible all -m shell -a 'command'  --> Executes shell commands on the remote hosts.
+ansible all -m apt -a 'name=package state=present' -->  Manages packages on Debian-based systems.
+Gathering information about servers
+
+```
+
 Yes, I have worked on Ansible ad hoc commands. I have used them to perform a variety of tasks, including:
 
     Rebooting servers
@@ -789,8 +803,28 @@ Link : https://www.golinuxcloud.com/ansible-ad-hoc-commands/
 ------------
 
 
-Q12 : why we need adhoc acnsible commands, give scenario where you have used ansibe adhoc command ?
+Q12 : why we need adhoc ansible commands, give scenario where you have used ansibe adhoc command ?
 - ans :
+
+```
+- whenever we need to perform quick action.
+- without the overhead of creating and managing Ansible playbooks.
+-  trouble shooting , emergency fixes , testing etc
+
+ansible webservers -m reboot  -->    Rebooting servers
+ansible all -m copy -a "src=/etc/hosts dest=/tmp/hosts" -->    Copying files to multiple servers
+ansible all -m package -a "name=nginx state=present"  -->    Managing packages on servers
+ansible all -m user -a "name=myuser state=present"   -->    Creating and deleting users and groups on servers
+ansible webservers -m service -a "name=httpd state=started"  -->    Checking the status of services on servers
+ansible all -m file -a 'path=/path/to/directory state=directory'  --> Manages files and directories on remote hosts.
+ansible all -m ping
+ansible all -m command -a "df -h"
+ansible all -m shell -a 'command'  --> Executes shell commands on the remote hosts.
+ansible all -m apt -a 'name=package state=present' -->  Manages packages on Debian-based systems.
+Gathering information about servers
+
+
+```
 
 Ansible ad-hoc commands are useful in several scenarios where you need to perform quick, one-off tasks on remote servers without the overhead of creating and managing Ansible playbooks. Here are some common scenarios where ad-hoc commands come in handy:
 
@@ -861,6 +895,15 @@ Ansible ad hoc commands are a powerful tool that can be used to automate a varie
 Q13 : when i need detailed logs on executing ansible-playbook what option i need to use , basically it gived a brief but i want detailed command ?
 - ans :
 
+```
+- use verbosity -v or --verbose
+- levels -v , -vv, -vvv max 5 level
+- command : ansible-playbook -vv your_playbook.yml
+- helpful for diagnosing issues or understanding the step-by-step process of the playbook
+- these logs can be stored automatically in log file , we need to configure this in ansible.conf file.
+```
+
+
 To generate detailed logs when executing an Ansible playbook, you can use the `-v` or `--verbose` option. Increasing the verbosity level with each occurrence of this option provides more detailed output. There are four levels of verbosity available:
 
 1. `-v`: This is the default level and provides a moderate amount of information.
@@ -899,6 +942,11 @@ Ansible will look in several places for the config file:
 
 Q14 : what is ansible.cfg file ?
 - ans :
+
+```
+
+
+```
 
 The `ansible.cfg` file is a configuration file used to customize and configure various settings for the Ansible command-line tool and the Ansible automation framework as a whole. This file allows you to set preferences, default values, and behavior for Ansible, which can help streamline your workflow and maintain consistency across your Ansible projects.
 
@@ -993,6 +1041,27 @@ Q15 : what are the modules have you worked on ?
 - ans :
 
 
+```
+- whenever we need to perform quick action.
+- without the overhead of creating and managing Ansible playbooks.
+-  trouble shooting , emergency fixes , testing etc
+
+ansible webservers -m reboot  -->    Rebooting servers
+ansible all -m copy -a "src=/etc/hosts dest=/tmp/hosts" -->    Copying files to multiple servers
+ansible all -m package -a "name=nginx state=present"  -->    Managing packages on servers
+ansible all -m user -a "name=myuser state=present"   -->    Creating and deleting users and groups on servers
+ansible webservers -m service -a "name=httpd state=started"  -->    Checking the status of services on servers
+ansible all -m file -a 'path=/path/to/directory state=directory'  --> Manages files and directories on remote hosts.
+ansible all -m ping
+ansible all -m command -a "df -h"
+ansible all -m shell -a 'command'  --> Executes shell commands on the remote hosts.
+ansible all -m apt -a 'name=package state=present' -->  Manages packages on Debian-based systems.
+Gathering information about servers
+
+
+```
+
+
 I'm familiar with a wide range of Ansible modules and can provide information and examples for many of them. Ansible modules are pre-built, reusable components that allow you to perform specific tasks or operations on remote hosts. Here are some common Ansible modules:
 
 1. **Command Modules:** These modules allow you to run commands on remote hosts. Examples include `command`, `shell`, and `raw`.
@@ -1053,6 +1122,12 @@ Link : https://faun.pub/ansible-30-most-important-modules-for-devops-professiona
 
 Q16 : which module will you use for getting the file from node to master ?
 - ans :
+
+```
+- ansible <target_hosts> -m fetch -a "src=/path/on/remote dest=/local/destination flat=yes"
+- fetch multiple files from multiple hosts
+```
+
 
 To copy a file from a remote node (target host) to the Ansible control machine (master), you can use the `fetch` module. The `fetch` module is specifically designed for retrieving files from remote hosts. Here's an example of how to use it:
 
@@ -1123,6 +1198,16 @@ The fetch module is a powerful tool for getting files from remote nodes to the m
 Q17 :  lets say i have playbook which has 5 tasks in playbook, first 2 tasks should run on local machine ( ansible master ) and other 3 tasks should run on node ?
 - ans :
 
+```
+- use local_action clause
+- delegate_to: node1
+- Use the -l or --limit option when running the playbook. : ansible-playbook -l node1,node2 playbook.yml
+-   hosts: localhost  can be used in yaml file
+
+```
+
+
+
 There are a few ways to run the first two tasks in your playbook on the local machine (Ansible master) and the other three tasks on the node:
 
     Use the local_action clause. The local_action clause allows you to run a task on the Ansible controller instead of on the managed node. To use the local_action clause, add it to the task you want to run on the local machine. For example:
@@ -1165,11 +1250,11 @@ There are a few ways to run the first two tasks in your playbook on the local ma
 
     Use the -l or --limit option when running the playbook. The -l or --limit option allows you to specify which hosts to run the playbook on. To run the first two tasks in your playbook on the local machine, you would use the following command:
 
-ansible-playbook -l localhost playbook.yml
+`ansible-playbook -l localhost playbook.yml`
 
 To run the other three tasks in your playbook on the node, you would use the following command:
 
-ansible-playbook -l node1,node2 playbook.yml
+`ansible-playbook -l node1,node2 playbook.yml`
 
 Which method you choose will depend on your specific needs and preferences. If you only need to run a few tasks on the local machine, then using the local_action clause is the simplest option. If you need to run more tasks on the local machine, or if you need to run the tasks on a specific host, then using the delegate_to keyword or the -l or --limit option is a better option.
 
@@ -1230,12 +1315,12 @@ Link : https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_strategi
 Q18 :  How to save only last 5 builds of jenkins job? 
 - ans :
 
-
+```
 * UI : build discarder --> log rotation --> log rotation strategy --> days to keep artifact
 * CLI : `jenkins job <job-name> config` update the build discarder
 * Pipeline :     buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
 * make sure we are keepting the successfully build artifacts , as per company policy
-
+```
 
 In Jenkins, you can configure build retention policies to keep only the last 5 builds of a job and automatically discard older builds. This helps to manage disk space and maintain a clean build history. To achieve this, you can use the "Log Rotation" feature in Jenkins. Here's how you can do it:
 
