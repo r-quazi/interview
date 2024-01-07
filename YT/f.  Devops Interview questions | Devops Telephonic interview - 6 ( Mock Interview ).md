@@ -15,6 +15,16 @@ https://www.youtube.com/watch?v=Z_bbozP6ZW4&list=PLLYW3zEOaqlLShAk9pd4FQ34KOpY7E
 
 3. which version of git you used ?
 
+
+```
+- used latest 3.11 version
+- stable , compatible, security update. new fetaures
+- git --version
+- git update go through porting guide
+- other versions used also preinstalled in VMs, 
+
+```
+
 I use the latest version of Git, which is 3.1.1 as of September 17, 2023. I use the latest version of Git because it is the most stable and has the most features. I also use the latest version of Git to ensure that I am compatible with the other developers and tools that I use.
 
 Here are some of the benefits of using the latest version of Git:
@@ -39,6 +49,27 @@ shoudl go through update guide or porting guide before updateing version as they
 
 4. what is git merge and git rebase ?
 
+
+
+```
+- both used to integrate changes from one to other branch , diff. approach to combine branch history
+- Git Merge :
+- creates new merge commit that has 2 parent commit
+- creates linear commit hstory ,preserves complete history of both branches
+- merged branches maintain their original cmmit history
+- generally used with feture branch `   git merge branch_name`
+
+
+- Git Rebase :
+-  used to incorporate changes from one branch into another by moving or reapplying commits from the source branch onto the tip of the target branch.
+- rewrites the commit history of the source branch
+-  may alter commit timestamps and commit hashes
+- `  git checkout feature_branch ` --> ` git rebase target_branch`
+
+
+- Use `git merge` when you want to preserve the original branch's commit history and create a merge commit to signify the merge.
+- Use `git rebase` when you want a linear and cleaner commit history but are willing to rewrite commit history.
+```
 Git Merge lets you merge different Git branches. Git Rebase allows you to integrate the changes from one branch into another.
 
 
@@ -84,7 +115,45 @@ In summary, `git merge` is suitable for integrating branches with their full com
 ---------
 ---------
 
+
 5. Do you know git squash ?
+
+
+
+```
+- **Squashing Commits:**
+  - Technique to combine multiple commits into a single, meaningful commit.
+  - Often done before merging feature branches into the main branch.
+  - Utilizes interactive rebase for the process.
+
+- **Interactive Rebase Steps:**
+  1. Checkout the target branch: `git checkout feature_branch`
+  2. Start interactive rebase for the last N commits: `git rebase -i HEAD~N`
+  3. In the interactive editor, change "pick" to "squash" for selected commits.
+  4. Save and close the editor.
+  5. Edit the commit message for the combined commit.
+  6. Save and close the commit message editor.
+  7. Complete the rebase process.
+  8. Force push if needed when pushing to a remote repository.
+
+- **Benefits of Squashing:**
+  - Creates a cleaner and more concise commit history.
+  - Especially useful for projects with incremental commits during development.
+  - Enhances readability and understanding of the commit history.
+
+- **Comparison with Git Rebase:**
+  - Squashing combines multiple commits into one for a cleaner history.
+  - Git rebase applies commits on different base commits, forming a new branch.
+  - Squashing is typically done on private branches, while rebase can be used on shared branches.
+
+- **Squashing Multiple Commits:**
+  - Use `git reset --soft HEAD~N` to reset to the desired commit.
+  - Follow with `git commit` to create a new commit, or use `--edit` to concatenate commit messages.
+
+Squashing commits is a valuable practice for maintaining a clean and logical commit history, facilitating easier collaboration and code understanding.
+
+
+```
 
 Yes, I'm familiar with the concept of "squashing" commits in Git. Squashing is a technique used to combine multiple commits into a single, more meaningful commit. This can help keep your commit history cleaner and more organized, especially before merging a feature branch into a main branch. Squashing is typically done using an interactive rebase.
 
@@ -158,6 +227,42 @@ Both of those methods squash the last three commits into a single new commit in 
 ---------
 
 6. What branching strategy you used and which is good ?
+
+
+
+```
+- **Feature Branch Workflow:**
+  - Each feature or bug fix has a dedicated branch.
+  - Feature branches are created from the main branch and merged back when complete.
+  - Keeps main branch stable, enables parallel feature development.
+
+- **Gitflow Workflow:**
+  - Defines a structured branching model (feature, develop, release, hotfix).
+  - Suitable for larger projects with complex release cycles.
+  - Provides clear guidelines for different types of development.
+
+- **GitHub Flow:**
+  - Emphasizes continuous delivery with a focus on simplicity.
+  - Development in feature branches, merged into the main branch.
+  - Suitable for rapid development and deployment cycles.
+
+- **Trunk-Based Development:**
+  - All development in a single branch (master or main).
+  - Focus on keeping the main branch stable at all times.
+  - Effective for small teams with high automation and quick releases.
+
+- **GitOps Workflow:**
+  - Combines Git with infrastructure as code and automation.
+  - Manages infrastructure and application deployments declaratively.
+  - Suitable for projects requiring automated infrastructure management.
+
+- **GitHub Flow Strategy:**
+  - Uses main for production code and feature branches for development.
+  - Encourages small, frequent merges using pull requests.
+  - Simple and lightweight, suitable for small to medium-sized teams.
+
+
+```
 
 
 The choice of a branching strategy in Git depends on your team's development workflow and the specific needs of your project. There is no one-size-fits-all branching strategy, and what works best can vary from one project to another. Here are a few common branching strategies and when they might be suitable:
