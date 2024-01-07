@@ -643,6 +643,15 @@ Replace `/path/to/your/file_or_folder` with the actual file or folder path you w
 
 Q13 : How to check whether particular port is already in use or not ?
 -ans :
+
+```
+- sudo nmap -p-localhost
+- sudo lsof -i -P -n | grep LISTEN
+- ss -tulpn
+- netstat -tulpn | grep <port_number>
+
+```
+
 To check whether a particular port is already in use, you can use various command-line tools depending on your operating system. Here are examples for Linux, macOS, and Windows:
 
 **Linux / macOS:**
