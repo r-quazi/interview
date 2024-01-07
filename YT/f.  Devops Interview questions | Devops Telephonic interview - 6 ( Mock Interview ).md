@@ -663,8 +663,45 @@ Remember that Helm values can be dynamically used in templates, so the absence o
 --------------------------
 --------------------------
 
+# LINUX :
+
+
 30. have you come across exit status, why we use that exit status ?
 
+Yes, the exit status is a numeric value that a command or a script returns to the operating system upon completion of execution. It is sometimes referred to as the "exit code" or "return code." The exit status serves several purposes:
+
+1. **Indication of Success or Failure:**
+   - An exit status of 0 typically indicates successful execution.
+   - A non-zero exit status typically indicates an error or failure.
+
+2. **Communication between Processes:**
+   - Other programs or scripts can check the exit status to determine the success or failure of the executed command.
+   - This is especially important in scripting or automation, where one command's success might dictate the next steps.
+
+3. **Debugging and Troubleshooting:**
+   - When running commands or scripts interactively or as part of a larger system, knowing the exit status helps in identifying and troubleshooting issues.
+   - Different exit status codes can provide information about the nature of an error or failure.
+
+4. **Conditional Execution:**
+   - In scripts or shell commands, the exit status can be used in conditional statements (`if` statements) to determine the flow of the script based on the success or failure of a command.
+
+For example, in a bash script:
+
+```bash
+#!/bin/bash
+
+some_command
+
+if [ $? -eq 0 ]; then
+    echo "Command succeeded"
+else
+    echo "Command failed"
+fi
+```
+
+Here, `$?` represents the exit status of the last executed command. The script checks if the exit status is 0, indicating success, and takes appropriate action.
+
+It's worth noting that conventionally, an exit status of 0 indicates success, and any other value indicates an error or failure. Different commands or programs may use specific non-zero exit codes to convey different types of errors. The specifics can be found in the documentation of the individual commands or programs.
 
 --------------------------
 
@@ -672,18 +709,86 @@ Remember that Helm values can be dynamically used in templates, so the absence o
 
 
 
+In Linux, there are various commands you can use to find information about the operating system. Here are several commands you can try:
+
+1. **`lsb_release`:**
+   ```bash
+   lsb_release -a
+   ```
+   This command provides detailed information about the Linux distribution, including its name, release number, and codename.
+
+2. **`cat /etc/os-release`:**
+   ```bash
+   cat /etc/os-release
+   ```
+   This command displays the contents of the `/etc/os-release` file, which contains information about the operating system, including its name.
+
+3. **`uname`:**
+   ```bash
+   uname -a
+   ```
+   This command displays system information, including the kernel version, machine architecture, and the operating system name.
+
+4. **`hostnamectl`:**
+   ```bash
+   hostnamectl
+   ```
+   This command provides information about the system and its configuration, including the operating system.
+
+5. **`cat /proc/version`:**
+   ```bash
+   cat /proc/version
+   ```
+   This command shows information about the Linux kernel and its version.
+
+Choose the command that best suits your needs or use a combination of them to gather comprehensive information about your Linux system.
 
 
 
 
 
+-----------
+-------------
 
 
+# ANSIBLE
+--------------------------
 
 32. in ansible if we have to run few command on centos and linus how to do that >
+
+
+
+
+--------------------------
+
 33. ansible galaxy ? why we use ?
+
+
+
+--------------------------
+
 34. simple example of adhoc command ?
+
+
+
+
+--------------------------
+
 35. how to store the output of command ?
+
+
+
+
+--------------------------
+
+
+
+
 36. what are handlers in ansible and why we use it ?
+
+
+
+--------------------------
+
 
 37. what are the aws services you have worked on ?  
