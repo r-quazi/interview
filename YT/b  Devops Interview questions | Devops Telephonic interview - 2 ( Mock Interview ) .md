@@ -1251,12 +1251,32 @@ It's important to note that this method copies the file into the container, but 
 -------------------
 ====================
 
-### Kubernetes :
+## Kubernetes :
 
 
 Q25 : what is init container and side-car container?can you give simple scenario where we use these conatiners?
 
 - ans :
+
+
+```
+- Init / sidecar enhance functionality of pods
+- Init : 
+- run b4 main container starts
+- performs initialization task setup /conf/ data prep /creating files or dir /
+- install dependenncies / wait for ext svc to be available / run health check to know envt is ready 
+- perfect for conditions met b4 main app starts
+- eg and manifest
+
+
+- Sidecar :
+- additional containers that run alongside of main application in same pod
+- enhance functionality of main container without modifying main app code
+- logging n monitoring / caching/ load balancing / service discovery / security
+```
+
+
+
 Init containers and sidecar containers are two common patterns used in Kubernetes to enhance the functionality of pods. 
 
 1. **Init Containers**:
@@ -1347,6 +1367,27 @@ In summary, init containers are primarily used for setup and initialization task
 Q26 : which one is default deployment strategy? how it works?
 
 -ans :
+
+
+
+```
+
+- rolling update  : gradually replaces instances of old with new version ( % or N )
+- maintains healthy replicas during update
+- k8s ueses replica set to ensure specofoc number of replicas running all the time
+- when we create deployment it manages the replica set
+- when new version updated in deployment configuration k8s create new replica set
+- rolling update ... controlled scaling
+- readiness and liveness probes
+- monitors the state of pod then gradually scales down old version
+- auto rollback to to previous version by scaling down new replica set
+- minimizes downtime/ test new version of app b4 fully deploying / can conf speed of upate.
+
+```
+
+
+
+
 
 The default deployment strategy in Kubernetes is a "Rolling Update." A Rolling Update gradually replaces instances of the previous version of an application with instances of the new version while maintaining a specified number of healthy replicas during the update process. Here's how it works:
 
@@ -1448,6 +1489,41 @@ events ` kubectl get events --field-selector involvedObject.name=<pod-namw>`
 
 Q28 : what are the types of services present in kubernetes?
 -ans :
+
+
+```
+- expose applications and manage network communication
+- Cluster IP :
+--  internal network communication within the cluster,
+--  expose servoce on cluster internal ip , only internal service can access 
+--  not accessible from outside the cluster
+
+- NodePort :
+-- expose service on static port on server ip
+-- accessibke from outside of cluster.
+-- When traffic is directed to a node's IP and the defined port, the service forwards it to the appropriate pod.
+
+- loadBalancer :
+-- exposes service on cloud load balancer
+-- distribute external traffic  to pods behind the service
+-- suitable for HA and high traffic
+
+- External name :
+-- map service to DNS 
+-- do not have selector or endpoint but instead redirects DNS queries to specified external name
+
+- Headless : 
+-- provides direct DNS based pod to pod communication 
+
+- Ingress :
+-- not exactly a service but manages external access to services in your cluster.
+-- used to configure rules for routing external traffic to specific service based on HTTP or HTTPS routes
+```
+
+
+
+
+
 
 Kubernetes offers several types of services to expose applications and manage network communication within a cluster. The common types of services in Kubernetes are:
 
@@ -1578,6 +1654,28 @@ These services are essential for managing networking and making your application
 Q29 : What is the link between pod and service?
 
 -ans :
+
+```
+- both are related and work together to ensure communication within the cluster
+- Pods :
+-- smallest deployable unit , contain 1 or more container , share resources, communicate via localhost
+
+- Services :
+-- provide a stable . network internal endpoint to access group pods
+-- provides a way to load balance traffic across multiple pods 
+
+- Label selector :
+-- pods are labelled with key value pairs & services are configured with label selector to identify pods
+-- label selector defines which pods are part of service
+
+- service endpoint :
+-- after creating service k8s discovers pods and forms a list of endpoint ,
+-- these endpoints are the individual pod ip address and ports that belong to the service
+-- service maintains the list and dynamically updates it as pods are reated or terminated
+
+```
+
+
 
 Pods and services in Kubernetes are closely related and work together to ensure network communication within the cluster. Here's the link between pods and services:
 
