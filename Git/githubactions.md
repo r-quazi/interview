@@ -1,3 +1,9 @@
+QNA  :
+https://www.javainuse.com/interview/github
+https://www.fosstechnix.com/github-actions-interview-questions-and-answers/
+https://climbtheladder.com/github-actions-interview-questions/
+
+
 
 **1. What are GitHub Actions, and how do they work?**
 
