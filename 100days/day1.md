@@ -59,12 +59,134 @@ Many Orgs. have OAuth setup for git or SSO if we forgot the password of that the
 
 ### Linux Knowledge
 9. **Which Linux Distributions and Versions Have You Used?**
+
+Ans :
+I have used ubuntu 18, 20 and 22 , CentOs 17 and 21, RHEL , Amazon Linux 2 and 3, 
+
+
 10. **What Are the Differences Between Ubuntu, Amazon Linux, RHEL, SUSE, Fedora, CentOS, and Debian?**
-11. **What Is the Difference Between wget and curl?**
-12. **Explain the Use of awk in Linux**
-13. **What Command Do You Use to Check Free Space in Linux?**
-14. **What Are Groups in Linux?**
-15. **How Do You Check Which Users Belong to Which Group?**
+
+Ans:
+Ubuntu :
+- Debian based Linux distribution that use free and open source applications,
+- Simple and beginner friendly GUI.
+- It has 3 editions : Desktop , server and IOT.
+
+Amazon Linux:
+- Designed to provide an optimized Linux envt for running workloads on AWS.
+- Uses minimal base system and lightweight default applications to reduce overhead and support high density VM configurations.
+
+RHEL:
+- Focused on server applications, stabiloty, reliability, 
+- Uses SELinux as a security system.
+
+SUSE:
+- 
+
+Fedora:
+- Community supported linux distro sponsered by RedHat.
+- RHEL features are first tested in Fedora then release to RHEL.
+
+CentOS:
+- Open Source Linux distro compatible with RHEL.
+- Popular for stability and security focus.
+
+Debian:
+- Widely used in Linux distro, especially in server environment.
+- known for its robustness and large number of available softwares.
+
+  
+
+10. **What Is the Difference Between wget and curl?**
+
+Ans:
+wget and curl are both command-line tools for transferring data using various protocols. Here are some key differences between them:
+
+wget:
+- wget is primarily used for downloading webpages or even entire websites.
+- It supports protocols like HTTP, HTTPS, and FTP.
+- wget is known for its ability to download recursively.
+- It also supports features like bandwidth control, resuming aborted transfers, background downloads, and recursive mirror files and directories.
+- Use case: 
+Downloading files from the internet.
+Fetching webpages or websites.
+Automating file downloads in scripts.
+Recursive downloads.
+Bandwidth control.
+Resuming aborted transfers.
+Background downloads.
+Recursive mirror files and directories.
+
+curl:
+- curl is a more general-purpose tool for remote file transfers.
+- It supports a wider range of protocols than wget, including HTTP/HTTPS, FTP, SFTP, SCP, IMAP, LDAP/LDAPS, SMB/SMBS, TELNET, POP3, GOPHER, and more.
+- curl also supports additional features like file compression.
+Unlike wget, curl is powered by a cross-platform library (libcurl), which allows it to run on more platforms.
+- curl supports more authentication methods over HTTP proxies than wget does5.
+
+- Usecase:
+Downloading files from the internet.
+Uploading data to a server.
+Interacting with APIs.
+Testing web services.
+Downloading data from a database.
+If you want to use other protocols than common ones for client-server interaction.
+If the uploading data is large and complex.
+If extra security authentication is required.
+
+
+
+In summary, while wget is specialized for downloading webpages and websites, curl is a more flexible and feature-rich tool for remote file transfers.
+
+11. **Explain the Use of awk in Linux**
+
+Ans:
+awk is a powerful tool for  manipulating data and generating reports in Unix/Linux.
+
+- awk scans a file line by line, splits each input line into fields, compares input line/fields to pattern, and performs actions on matched lines1
+
+It is mostly used for pattern scanning and processing
+
+AWK Operations:
+- Scan a file line by line.
+- Split each input line into fields.
+- Compare input line/fields to pattern.
+- Perform actions on matched lines.
+
+Useful For:
+- Transform data files.
+- Produce formatted reports.
+
+Programming Constructs:
+- Format output lines.
+- Arithmetic and string operations.
+- Conditionals and loops.
+
+The basic syntax of awk is 
+```
+awk options 'selection _criteria {action }' input-file > output-file1
+```
+
+Here are some examples of awk commands:
+
+Default behavior of Awk: 
+
+By default, awk prints every line of data from the specified file. For example, ```$ awk '{print}' employee.txt ``` will print all lines in the employee.txt file.
+
+Print the lines which match the given pattern: For example, ``` $ awk '/manager/ {print}' employee.txt ``` will print all the lines in the employee.txt file that contain the word 'manager’.
+
+Splitting a Line Into Fields: awk splits a line into different fields and stores them in the $n variables. For example, ```$ awk '{print $1,$4}' employee.txt``` will print the first and fourth fields of each line in the employee.txt file
+
+12. **What Command Do You Use to Check Free Space in Linux?**
+
+Ans:
+`df -h`: Shows disk space in human-readable format.
+`df -a`: Shows the file system’s complete disk usage even if the Available field is 0.
+`df -T`: Shows the disk usage along with each block’s filesystem type.
+`df -i`: Shows used and free inodes.
+
+13. **What Are Groups in Linux?**
+14. **How Do You Check Which Users Belong to Which Group?**
 
 ### Code Quality and SonarQube
 16. **What Is a Quality Profile in SonarQube?**
