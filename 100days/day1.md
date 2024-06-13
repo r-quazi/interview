@@ -7,9 +7,55 @@
 
 ### Version Control and Branching Strategies
 5. **What Branching Strategies Have You Followed?**
+
+
+
 6. **Through Which Branch Does Production Deployment Happen?**
+
+Ans: 
+In most scenarios, the ‘master’ or ‘main’ branch is typically used for production deployment. However, the branching strategy can vary significantly among different teams, often depending on the complexity of the project. For instance, some projects might have a dedicated ‘release’ branch specifically for production deployment.
+
+Furthermore, certain teams maintain two repositories for added reliability. In one repository, all testing is conducted and a stable version of the code is maintained. Once all tests pass and the code is deemed stable, a copy of this stable branch is created in a second repository. This strategy ensures that a stable version of the code is always available for disaster recovery, even if one of the repositories becomes unavailable. This approach provides an additional layer of security and reliability to the software development process.
+
+
 7. **Are You Using the Main or Master Branch, and What Is the Difference Between Them?**
+
+Ans : 
+The term master and main used to denote the default branch in Git repository. Master term was  traditionally used in git to represent the main line of development. It was the default branch name when we create new git repository. All changes are merged back into master branch and it is meant to be stable branch with latest successful build and release.
+
+Recently in 2020 the name of master was changed to main because it resembles master-slave architecture and  the name of default branch was changed to main. It serves the same purpose as master.
+
+The only difference between them is name and functionality remains the same. Few old repo may still have master branch so whenever we clone the repo we should check the  branch is master or main. We can also have both master and main in same repo but to avoid any confusions we should stick to the best practices of git.
+
+If we have old repo and we want to migrate to main branch then :
+```
+git checkout master
+git branch main
+git push -u origin main
+git push origin --delete master
+```
+
+or we can simply rename the branch :
+```
+git branch -m master main
+```
+
+
+
 8. **If We Forget the Password in a Git Client, How Can We Rectify That?**
+
+Ans:
+It depends on the authentication method we are using. The authentication using password was recently depricated as it is not considered as safe. and we are currently using PAT Token.
+So if we forgot the token or we lost it or it is expired we can go to github and create new PAT Token by selecting correct set of permissions. Once we have PAT token we need to remove the previous  git credential stored in git we can remove using `git config --system --unset credential.helper`  and then readd then re add the creds whenvever we clone /push/pull we will get the option to enter username and password. 
+
+If we used SSH based authentication then the process will be different we need to create a key pair we can do this by `ssh-keygen -t rsa -b 4096 ` command  once the keypair is generated we can add the key in Github portal.
+
+Many Orgs. have OAuth setup for git or SSO if we forgot the password of that then we need to contact the respective support group of OAuth provider.
+
+
+------------------------------------
+
+
 
 ### Linux Knowledge
 9. **Which Linux Distributions and Versions Have You Used?**
